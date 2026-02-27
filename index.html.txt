@@ -1,0 +1,3605 @@
+   <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My shop</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+<style>
+  .home-layout{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:14px;
+}
+
+.visitors .stat{
+  padding:10px 6px;
+  font-size:12px;
+}
+
+*{box-sizing:border-box}
+body{margin:0;font-family:Poppins;background:#f4f5f7}
+body.login{background:radial-gradient(circle at top,#1c1c1c,#000)}
+
+/* LOGIN / REGISTER */
+.form{
+  width:360px;margin:70px auto;padding:26px;border-radius:20px;
+  background:rgba(255,255,255,.15);backdrop-filter:blur(18px);color:#fff
+}
+.form h2{text-align:center}
+.form input,.form button{
+  width:100%;padding:12px;margin-bottom:12px;border-radius:10px;border:none
+}
+.form input{background:#fff}
+.form button{background:#ff0050;color:#fff;font-weight:600}
+.link{text-align:center;color:#25f4ee;cursor:pointer}
+
+/* Upload */
+.upload-box{
+  border:2px dashed rgba(255,255,255,.6);
+  border-radius:14px;padding:16px;text-align:center;
+  cursor:pointer;margin-bottom:12px
+}
+.upload-box img{
+  width:100%;height:140px;object-fit:cover;
+  border-radius:12px;display:none
+}
+
+/* TikTok logo */
+.tiktok-wrap{text-align:center;margin-top:20px}
+.tiktok{font-size:120px;font-weight:800;position:relative}
+.tiktok span{position:absolute;left:0;right:0}
+.tiktok .red{color:#ff0050;transform:translate(4px,4px)}
+.tiktok .cyan{color:#25f4ee;transform:translate(-4px,-4px)}
+.tiktok .main{color:#fff;position:relative}
+
+/* APP */
+#app{display:none;min-height:100vh;background:#f4f5f7}
+
+/* Header */
+.header{
+  background:#fff;padding:12px 15px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid #eee
+}
+.header-left{display:flex;align-items:center;gap:10px}
+.header-left img{
+  width:42px;height:42px;border-radius:50%;
+  border:2px solid #ff0050;object-fit:cover
+}
+
+/* Home */
+.section{
+  padding:14px;
+}
+.hidden{
+  display:none !important;
+}
+
+
+/* Shop data */
+.shop-data{
+  background:#fff;border-radius:14px;padding:14px;margin-bottom:12px
+}
+.shop-data-top{
+  display:flex;justify-content:space-between;align-items:center
+}
+.shop-data p{font-size:20px;font-weight:700}
+
+/* Cards */
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.card{
+  background:#fff;border-radius:12px;padding:12px;
+  box-shadow:0 5px 15px rgba(0,0,0,.06)
+}
+
+/* Stats */
+/* === FOLLOWERS / RATING / CREDIT === */
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr); /* 3 same line */
+  gap:12px;
+  margin-top:12px;
+}
+
+.stat{
+  background:#fff;
+  border-radius:14px;
+  padding:14px 8px;
+  text-align:center;
+  box-shadow:0 4px 12px rgba(0,0,0,.08);
+}
+
+.stat i{
+  font-size:18px;
+  color:#ff0050;
+  margin-bottom:4px;
+}
+.stat{
+  background:#fff;border-radius:12px;padding:10px;text-align:center
+}
+.stat i{color:#ff0050}
+
+/* OPTIONS */
+.options{
+  margin-top:10px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr); /* 3 option ek line me */
+  gap:10px;
+}
+.option{
+  background:#fff;border-radius:14px;
+  padding:14px 6px;text-align:center;
+  font-size:12px;font-weight:500;
+  box-shadow:0 5px 15px rgba(0,0,0,.06)
+}
+.option i{
+  display:block;font-size:20px;
+  color:#ff0050;margin-bottom:6px
+}
+
+/* Bottom nav */
+.nav{
+  position:fixed;bottom:0;width:100%;
+  background:#fff;border-top:1px solid #ddd;
+  display:flex
+}
+.nav button{
+  flex:1;padding:10px;border:none;background:none;
+  font-size:12px;color:#666
+}
+.nav button.active{color:#ff0050}
+.card b{
+  display:block;
+  font-size:13px;
+  margin:6px 0;
+}
+
+.card button{
+  border:none;
+  padding:6px 10px;
+  border-radius:6px;
+  background:#eee;
+  font-weight:600;
+}
+.top-banner{
+  position:relative;   /* 👈 IMPORTANT */
+  width:100%;
+  height:200px;
+  margin-bottom:14px;
+  border-radius:0;
+  overflow:hidden;
+}
+
+.top-banner img{
+  width:100%;
+  height:100%;
+  object-fit:cover;   /* 🔥 shein style */
+}
+
+.banner-overlay{
+  position:absolute;
+  inset:0;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  padding:20px;
+  background:linear-gradient(
+    to top,
+    rgba(0,0,0,.55),
+    rgba(0,0,0,.1)
+  );
+}
+.banner-text{
+  color:#fff;
+}
+
+.banner-text h2{
+  margin:0;
+  font-size:26px;
+  font-weight:700;
+}
+
+.banner-text p{
+  margin:4px 0 0;
+  font-size:14px;
+}
+
+.banner-shop{
+  position:absolute;          /* ✅ FIX */
+  right:20px;
+  bottom:20px;
+
+  background:#fff;
+  border-radius:14px;
+  padding:12px 16px;
+  min-width:180px;
+
+  box-shadow:0 8px 24px rgba(0,0,0,.15);
+}
+
+#bannerImg{
+  transition:opacity .4s ease;
+}
+body.rtl{
+  direction: rtl;
+  text-align: right;
+}
+
+body.rtl .header,
+body.rtl .nav,
+body.rtl .grid,
+body.rtl .options{
+  direction: rtl;
+}
+.lang-option{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.tick{
+  font-size:16px;
+  color:green;
+}
+
+.home-options .option{
+  background:#fff;
+  border-radius:14px;
+  padding:14px 6px;
+  text-align:center;
+  font-size:12px;
+  font-weight:500;
+  box-shadow:0 4px 10px rgba(0,0,0,.08);
+}
+
+.home-options .option i{
+  display:block;
+  font-size:20px;
+  color:#ff0050;
+  margin-bottom:6px;
+}
+/* === VISITORS ROW (Today / 7 / 30 Days) === */
+.visitors{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:12px;
+}
+
+.visitors .stat{
+  background:#fff;
+  border-radius:12px;
+  padding:10px 6px;        /* 🔽 padding kam */
+  text-align:center;
+  box-shadow:0 3px 8px rgba(0,0,0,.08);
+  font-size:12px;         /* 🔽 text chota */
+}
+
+/* === ONLY THESE 3 BUTTONS ROW === */
+.quick-actions{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr); /* 👈 sirf 3 same line */
+  gap:12px;
+  margin-top:12px;
+}
+
+.quick-actions .action{
+  background:#fff;
+  border-radius:14px;
+  padding:14px 8px;
+  text-align:center;
+  box-shadow:0 4px 12px rgba(0,0,0,.08);
+  font-size:13px;
+}
+.nine-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-top:14px;
+}
+
+.option.small{
+  padding:12px 6px;
+  text-align:center;
+  font-size:13px;
+}
+
+.option.small span{
+  display:block;
+  font-size:18px;
+  font-weight:700;
+}
+.home-options.nine-grid{
+  margin-top:14px;
+  padding:12px;
+  background:#eaffea;
+  border-radius:18px;
+
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.home-options.nine-grid .option{
+  background:#fff;
+  border-radius:14px;
+  padding:14px 6px;
+  text-align:center;
+  font-size:12px;
+  font-weight:500;
+  box-shadow:0 4px 10px rgba(0,0,0,.08);
+}
+
+.home-options.nine-grid .option.small span{
+  display:block;
+  font-size:18px;
+  font-weight:700;
+}
+.my-actions{
+  margin-top:14px;
+  display:grid;
+  gap:12px;
+}
+
+/* ===== ORDER MODAL ===== */
+.order-modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.5);
+  z-index:9999;
+  justify-content:center;
+  align-items:center;
+}
+.order-box{
+  background:#fff;
+  width:340px;
+  padding:16px;
+  border-radius:16px;
+}
+.order-box img{
+  width:100%;
+  height:160px;
+  object-fit:cover;
+  border-radius:12px;
+  margin-bottom:10px;
+}
+.order-row{
+  font-size:13px;
+  margin:4px 0;
+}
+.order-row b{float:right}
+.hero-slider{
+  position:relative;
+  height:240px;
+  overflow:hidden;
+  margin-bottom:14px;
+}
+/* ===== SHOE FLY ANIMATION ===== */
+.shoe{
+  position:absolute;
+  bottom:-10px;
+  width:220px;
+  opacity:0;
+  transition:all 1.2s cubic-bezier(.19,1,.22,1);
+}
+
+.shoe.left{
+  left:-260px;
+}
+
+.shoe.right{
+  right:-260px;
+}
+
+.slide.active .shoe{
+  opacity:1;
+}
+
+.slide.active .shoe.left{
+  transform:translateX(300px) rotate(-8deg);
+}
+
+.slide.active .shoe.right{
+  transform:translateX(-300px) rotate(8deg);
+}
+
+.slide{
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  opacity:0;
+  transform:scale(1.08);
+  transition:opacity 1s ease, transform 1.2s ease;
+}
+
+.slide.active{
+  opacity:1;
+  transform:scale(1);
+  z-index:1;
+}
+
+.hero-content{
+  position:absolute;
+  bottom:24px;
+  left:20px;
+  color:#fff;
+}
+
+.hero-content h1{
+  font-size:44px;
+  margin:0;
+  letter-spacing:6px;
+}
+
+.hero-content p{
+  margin:4px 0 0;
+  font-size:14px;
+}
+/* ===== FLEXIBLE HERO BANNER ===== */
+.flex-banner{
+  position:relative;   /* 🔥 MOST IMPORTANT */
+}
+.flex-banner{
+  position:relative;
+}
+
+.shop-live-card{
+  position:absolute;
+  right:20px;
+  bottom:20px;
+
+  background:#fff;
+  border-radius:16px;
+  padding:14px 18px;
+  width:170px;
+
+  box-shadow:0 10px 30px rgba(0,0,0,.18);
+}
+
+.shop-live-card small{
+  color:#888;
+  font-size:12px;
+}
+
+.shop-live-card h2{
+  margin:6px 0;
+  font-size:24px;
+  color:#111;
+}
+
+.shop-live-card span{
+  font-size:12px;
+  color:#666;
+}
+.banner-shop{
+  position:absolute;
+  right:20px;
+  bottom:20px;
+
+  background:#fff;
+  border-radius:14px;
+  padding:12px 16px;
+  min-width:180px;
+
+  box-shadow:0 8px 24px rgba(0,0,0,.15);
+}
+
+.flex-overlay{
+  padding:20px;
+  color:#fff;
+}
+
+.flex-overlay h1{
+  margin:0;
+  font-size:38px;
+  letter-spacing:6px;
+}
+
+.flex-overlay p{
+  margin:6px 0 12px;
+  font-size:14px;
+  opacity:.9;
+}
+
+.flex-overlay button{
+  border:none;
+  padding:10px 18px;
+  border-radius:20px;
+  background:#ff0050;
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+}
+
+/* 📱 MOBILE FIX */
+@media(max-width:600px){
+  .flex-banner{height:180px}
+  .flex-overlay h1{font-size:28px}
+}
+/* ===== HERO SLIDER (VIDEO STYLE) ===== */
+.hero-slider{
+  position:relative;
+  height:240px;
+  border-radius:16px;
+  overflow:hidden;
+  margin-bottom:14px;
+}
+
+.hero-slide{
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  opacity:0;
+  transform:scale(1.08);
+  transition:opacity 1.2s ease, transform 6s ease;
+}
+
+.hero-slide.active{
+  opacity:1;
+  transform:scale(1);
+  z-index:1;
+}
+
+/* overlay text */
+.hero-overlay{
+  position:absolute;
+  bottom:24px;
+  left:24px;
+  color:#fff;
+  z-index:2;
+}
+
+.hero-overlay h1{
+  margin:0;
+  font-size:42px;
+  letter-spacing:6px;
+}
+
+.hero-overlay p{
+  margin:6px 0 12px;
+  font-size:14px;
+}
+
+/* shop card FIXED */
+.shop-live-card{
+  position:absolute;
+  right:20px;
+  bottom:20px;
+  z-index:3;
+
+  background:#fff;
+  border-radius:16px;
+  padding:14px 18px;
+  width:170px;
+  box-shadow:0 10px 30px rgba(0,0,0,.18);
+}
+#languageBox{
+  z-index: 99999 !important;
+}
+
+#languageBox .option{
+  position: relative;
+  z-index: 999999 !important;
+  pointer-events: auto !important;
+}
+
+#languageBox{
+  pointer-events: auto !important;
+}
+#languageBox{
+  z-index: 99999 !important;
+  pointer-events: auto !important;
+}
+
+#languageBox .lang-option{
+  pointer-events: auto !important;
+}
+.lang-modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:99999;
+}
+
+.lang-card{
+  width:340px;
+  background:#fff;
+  border-radius:20px;
+  padding:22px;
+  box-shadow:0 20px 60px rgba(0,0,0,.25);
+}
+
+.lang-btn{
+  width:100%;
+  border:none;
+  background:#f5f5f7;
+  padding:12px;
+  border-radius:12px;
+  margin-bottom:10px;
+  font-weight:600;
+  cursor:pointer;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.close-lang{
+  margin-top:8px;
+  width:100%;
+  border:none;
+  padding:12px;
+  border-radius:12px;
+  background:#ff0050;
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+}
+#hLogo{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  object-fit:cover;
+}
+#serviceBox{
+  display:none;
+  justify-content:center;
+  align-items:center;
+}
+.hero-overlay,
+.shop-live-card{
+  pointer-events: none;
+}
+.option{
+  position: relative;
+  z-index: 5;
+}
+
+.home-options{
+  position: relative;
+  z-index: 1;
+}
+/* TikTok style admin logo (no image) */
+.tiktok-logo{
+  width:28px;
+  height:28px;
+  border-radius:6px;
+  background:#000;
+  position:relative;
+  margin-right:8px;
+  flex-shrink:0;
+}
+
+/* white note */
+.tiktok-logo::before{
+  content:"♪";
+  color:#fff;
+  font-size:16px;
+  position:absolute;
+  left:7px;
+  top:3px;
+  font-weight:bold;
+}
+
+/* cyan/pink shadow vibe */
+.tiktok-logo::after{
+  content:"♪";
+  color:#25F4EE;
+  font-size:16px;
+  position:absolute;
+  left:9px;
+  top:5px;
+  opacity:.9;
+}
+   .bottom-nav,
+.bottom-menu {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+
+  background: #fff;
+  border-top: 1px solid #eee;
+}
+
+body {
+  padding-bottom: 80px;
+}
+</style>
+</head>
+
+<body class="login">
+
+<!-- LOGIN -->
+<div id="loginBox" class="form" style="display:none">
+  <h2>Login</h2>
+
+  <input type="email" placeholder="Email">
+  <input type="password" placeholder="Password">
+
+  <button type="button" onclick="login()">Login</button>
+
+  <div class="link" onclick="openForgot()">Forgot Password?</div>
+  <div class="link" onclick="openRegister()">Create Account</div>
+</div>
+
+<!-- REGISTER -->
+<div id="registerBox" class="form" style="display:none">
+  <h3>Create Store Account</h3>
+
+<!-- Store Logo -->
+<div class="upload-box" onclick="pick('storeLogo')">
+  <img id="storeLogoPrev">
+  <div>Store Logo</div>
+</div>
+<input type="file" id="storeLogo" hidden
+onchange="preview(this,'storeLogoPrev')">
+
+<!-- Store Name -->
+<input id="reg_store" placeholder="Store Name">
+
+<!-- Full Name -->
+<input id="reg_name" placeholder="Full Name">
+
+<!-- Email -->
+<input id="reg_email" type="email" placeholder="Email">
+
+<!-- Phone -->
+<input id="reg_phone" placeholder="Phone Number">
+
+<!-- Password -->
+<input id="reg_pass1" type="password" placeholder="Password">
+<input id="reg_pass2" type="password" placeholder="Confirm Password">
+
+<!-- ID Card Front -->
+<div class="upload-box" onclick="pick('idFront')">
+  <img id="idFrontPrev">
+  <div>ID Card Front</div>
+</div>
+<input type="file" id="idFront" hidden
+onchange="preview(this,'idFrontPrev')">
+
+<!-- ID Card Back -->
+<div class="upload-box" onclick="pick('idBack')">
+  <img id="idBackPrev">
+  <div>ID Card Back</div>
+</div>
+<input type="file" id="idBack" hidden
+onchange="preview(this,'idBackPrev')">
+
+<!-- Invitation Code -->
+<input id="reg_code" placeholder="Invitation Code">
+
+<button type="button" onclick="register()">Create Account</button>
+
+  <div class="link" onclick="backLogin()">Back</div>
+</div>
+<!-- FORGOT -->
+<div id="forgotBox" class="form" style="display:none">
+  <h2>Reset Password</h2>
+
+  <input type="email" placeholder="Email">
+
+  <button type="button" onclick="resetPassword()">Send Reset Link</button>
+
+  <div class="link" onclick="backLogin()">Back</div>
+</div>
+<!-- APP -->
+<div id="app">
+
+<div class="header">
+  <div class="header-left">
+    <img id="hLogo">
+    <strong id="hName"></strong>
+  </div>
+<div class="header-right" style="display:flex;align-items:center;gap:10px">
+
+  <small id="headerLang">🌍 EN</small>
+
+ <div
+  id="notifyBtn"
+  onclick="openNotifications(event)"
+  style="position:relative;cursor:pointer"
+>
+  <i class="fa-solid fa-bell" style="font-size:18px;color:#333"></i>
+
+  <span id="notifyCount" style="
+    display:none;
+    position:absolute;
+    top:-5px;
+    right:-5px;
+    background:red;
+    color:#fff;
+    font-size:10px;
+    padding:2px 5px;
+    border-radius:50%;
+  ">0</span>
+</div>
+
+
+</div>
+  
+</div>
+<!-- SHOP SETTING MODAL -->
+<div id="shopSettingBox" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;
+background:rgba(0,0,0,.5);z-index:999;">
+  <div style="background:#fff;width:340px;margin:80px auto;padding:20px;border-radius:16px">
+
+    <div class="upload-box" onclick="pick('p_logo')">
+      <img id="p_logoPrev">
+      <div>Change Store Logo</div>
+    </div>
+    <input type="file" id="p_logo" hidden onchange="preview(this,'p_logoPrev')">
+
+    <div class="card">
+      <input id="p_store" placeholder="Store Name" style="width:100%;padding:10px;margin-bottom:8px">
+      <input id="p_owner" placeholder="Owner Name" style="width:100%;padding:10px;margin-bottom:8px">
+      <input id="p_email" placeholder="Email" style="width:100%;padding:10px;margin-bottom:8px">
+      <input id="p_phone" placeholder="Phone" style="width:100%;padding:10px;margin-bottom:8px">
+
+      <input id="p_oldPass" type="password" placeholder="Current Password" style="width:100%;padding:10px;margin-bottom:8px">
+      <input id="p_newPass" type="password" placeholder="New Password" style="width:100%;padding:10px;margin-bottom:8px">
+      <input id="p_confirmPass" type="password" placeholder="Confirm New Password" style="width:100%;padding:10px;margin-bottom:8px">
+
+      <button onclick="savePersonalInfo()" style="
+        width:100%;padding:12px;
+        background:#ff0050;color:#fff;
+        border:none;border-radius:10px">
+        Save Changes
+      </button>
+    </div>
+
+    <div class="link" onclick="closeShopSetting()">Close</div>
+  </div>
+</div>
+<!-- STORE LEVEL MODAL -->
+<div id="storeLevelBox" onclick="closeStoreLevel()" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;
+background:rgba(0,0,0,.5);z-index:999;">
+  <div onclick="event.stopPropagation()" 
+style="background:#fff;width:360px;margin:80px auto;padding:20px;border-radius:16px">
+    <h3>Store Level</h3>
+
+    <div style="font-size:14px;line-height:1.6">
+      <p><b>Level 1</b> – Default</p>
+      <p><b>Level 2</b> – $1000 Sales → <span style="color:green">Bonus $200</span></p>
+      <p><b>Level 3</b> – $2000 Sales → <span style="color:green">Bonus $400</span></p>
+      <p><b>Level 4</b> – $4000 Sales → <span style="color:green">Bonus $800</span></p>
+      <p><b>Level 5</b> – $8000 Sales → <span style="color:green">Bonus $1600</span></p>
+      <p><b>Level 6</b> – $15000 Sales → <span style="color:green">Bonus $3000</span></p>
+      <p><b>Level 7</b> – $25000 Sales → <span style="color:green">Bonus $5000</span></p>
+      <p><b>Level 8</b> – $40000 Sales → <span style="color:green">Bonus $8000</span></p>
+      <p><b>Level 9</b> – $70000 Sales → <span style="color:green">Bonus $14000</span></p>
+      <p><b>Level 10</b> – $100000 Sales → <span style="color:green">VIP Store</span></p>
+    </div>
+
+    <button onclick="closeStoreLevel()" 
+      style="width:100%;margin-top:12px;padding:12px;border:none;
+      border-radius:10px;background:#ff0050;color:#fff;font-weight:600">
+      Close
+    </button>
+  </div>
+</div>
+<!-- EXPRESS SHOP MODAL -->
+<div id="expressBox" onclick="closeExpress()" style="
+display:none;position:fixed;top:0;left:0;width:100%;height:100%;
+background:rgba(0,0,0,.5);z-index:999;">
+
+  <div onclick="event.stopPropagation()"
+  style="background:#fff;width:360px;margin:70px auto;padding:20px;border-radius:16px">
+
+    <h3 style="margin-bottom:12px">International Express</h3>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+
+      <div class="option" onclick="openLink('https://www.dhl.com')">
+        <i class="fa-solid fa-truck-fast"></i>DHL
+      </div>
+
+      <div class="option" onclick="openLink('https://www.fedex.com')">
+        <i class="fa-solid fa-plane"></i>FedEx
+      </div>
+
+      <div class="option" onclick="openLink('https://www.ups.com')">
+        <i class="fa-solid fa-box"></i>UPS
+      </div>
+
+      <div class="option" onclick="openLink('https://www.usps.com')">
+        <i class="fa-solid fa-envelope"></i>USPS
+      </div>
+
+      <div class="option" onclick="openLink('https://www.tnt.com')">
+        <i class="fa-solid fa-truck"></i>TNT
+      </div>
+
+      <div class="option" onclick="openLink('https://www.ems.post')">
+        <i class="fa-solid fa-globe"></i>EMS
+      </div>
+
+    </div>
+
+    <button onclick="closeExpress()" style="
+      width:100%;margin-top:14px;padding:12px;border:none;
+      border-radius:10px;background:#ff0050;color:#fff;font-weight:600">
+      Close
+    </button>
+
+  </div>
+</div>
+<!-- DISTRIBUTION MODAL -->
+<!-- PRODUCTS PAGE -->
+<div id="products" class="section hidden">
+
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+    <button onclick="backHome()" style="
+      border:none;background:#eee;padding:6px 10px;border-radius:8px">
+      ← Back
+    </button>
+    <h3 style="margin:0">My Products</h3>
+  </div>
+
+  <div id="myProducts" class="grid"></div>
+
+  <button onclick="placeOrder()"
+    style="
+      width:100%;
+      margin-top:15px;
+      padding:12px;
+      background:#ff0050;
+      color:#fff;
+      border:none;
+      border-radius:12px;
+      font-size:16px;
+      font-weight:600;
+    ">
+    Place Order
+  </button>
+</div> <!-- products close -->
+
+<div id="orders" class="section hidden">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+  <button onclick="backHome()" style="
+    border:none;background:#eee;padding:6px 10px;border-radius:8px">
+    ← Back
+  </button>
+  <h3 style="margin:0">My Orders</h3>
+</div>
+
+<div id="orderList" class="grid"></div>
+</div>
+<div id="distributionBox" onclick="closeDistribution()" style="
+display:none;position:fixed;top:0;left:0;width:100%;height:100%;
+background:rgba(0,0,0,.5);z-index:999;">
+
+  <div onclick="event.stopPropagation()"
+  style="background:#fff;width:360px;margin:70px auto;padding:20px;border-radius:16px">
+
+    <h3 style="margin-bottom:12px">Distribution Products</h3>
+
+   <div id="distributionList" style="
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+max-height:420px;
+overflow-y:auto;
+">
+      <!-- products yahan JS se aayenge -->
+    </div>
+
+    <button onclick="closeDistribution()" style="
+      width:100%;margin-top:14px;padding:12px;border:none;
+      border-radius:10px;background:#ff0050;color:#fff;font-weight:600">
+      Close
+    </button> 
+
+  </div>
+</div>
+<div id="home" class="section hidden">
+ <!-- ===== HERO SLIDER ===== -->
+<div class="hero-slider">
+
+  <div class="hero-slide active" style="background-image:url('https://images.unsplash.com/photo-1542291026-7eec264c27ff');"></div>
+  <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f');"></div>
+  <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1512436991641-6745cdb1723f');"></div>
+  <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1491553895911-0055eca6402d');"></div>
+
+  <div class="hero-overlay">
+    <h1>ZYRA</h1>
+    <p>Premium Store • Fast Selling Products</p>
+    <button style="border:none;padding:10px 18px;border-radius:20px;background:#ff0050;color:#fff;font-weight:600">
+      Explore Products
+    </button>
+  </div>
+
+  <!-- SHOP DATA CARD -->
+  <div class="shop-live-card">
+    <small>Shop Data</small>
+    <h2 id="liveTotalSales">$0.00</h2>
+    <span>🧾 Total Sales</span>
+  </div>
+
+</div>
+<div class="grid">
+<div class="card"><h5 id="t_todayOrders">Today Orders Sold</h5>><span id="todayOrders">0</span></div>
+<div class="card"><h5 id="t_todaySales">Today Total Sales</h5><span id="todaySales">$0.00</span></div>
+<div class="card"><h5 id="t_todayProfitForecast">Today's Profit Forecast</h5><span id="todayProfit">0</span></div>
+<div class="card"><h5 id="t_totalProfit">Total Profit</h5><span id="totalProfit">0</span></div>
+<div class="card" onclick="openProducts()">
+  <h5 id="t_myProducts">My Products</h5>
+  <span id="homeProductCount">0</span>
+</div>
+</div>
+<!-- ✅ STATS + OPTIONS WRAPPER -->
+<div class="home-block">
+
+  <div class="stats">
+  <!-- Followers Stat -->
+  <div class="stat">
+    <i class="fa-solid fa-users"></i>
+    <div>
+      <span id="followers">0</span><br>
+      <span id="t_followersLabel">Followers</span>
+    </div>
+  </div>
+
+  <!-- Rating Stat - YEH SAHI HAI -->
+  <div class="stat">
+    <i class="fa-solid fa-star"></i>
+    <div>
+      <span id="rating">5.0</span><br>
+      <span id="t_ratingLabel">Rating</span>
+    </div>
+  </div>
+
+  <!-- Credit Stat -->
+  <div class="stat">
+    <i class="fa-solid fa-shield"></i>
+    <div>
+      <span id="credit">0</span><br>
+      <span id="t_creditLabel">Credit</span>
+    </div>
+  </div>
+</div>
+  <!-- ===== 9 BOX GRID (3 + 3 + 3) ===== -->
+  <div class="home-options nine-grid">
+
+    <!-- ROW 1 -->
+    <div class="option small">
+      <span id="todayVisitors">0</span>
+      <small id="t_today">Today</small>
+    </div>
+
+    <div class="option small">
+      <span id="weekVisitors">0</span>
+      <small id="t_7days">7 Days</small>
+    </div>
+
+    <div class="option small">
+      <span id="monthVisitors">0</span>
+      <small id="t_30days">30 Days</small>
+    </div>
+
+    <!-- ROW 2 -->
+    <div class="option" onclick="openShopSetting()">
+  <i class="fa-solid fa-gear"></i>
+  <span id="t_shopSetting">Shop Setting</span>
+</div>
+
+
+  <div class="option" onclick="openRefund()">
+  <i class="fa-solid fa-rotate-left"></i>
+  <span id="t_refundOrder">Refund Order</span>
+</div>
+
+
+ <div class="option" onclick="openExpress()">
+  <i class="fa-solid fa-truck-fast"></i>
+  <span id="t_expressShop">Express Shop</span>
+</div>
+
+
+<div class="option" onclick="openService(event)" style="position:relative">
+  <i class="fa-solid fa-headset"></i>
+
+  <!-- 🔴 RED DOT -->
+  <span id="serviceBadge" style="
+    display:none;
+    position:absolute;
+    top:6px;
+    right:18px;
+    width:10px;
+    height:10px;
+    background:red;
+    border-radius:50%;
+  "></span>
+
+  <span id="t_service">Service</span>
+</div>
+
+
+
+<div class="option" onclick="openStoreLevel()">
+  <i class="fa-solid fa-layer-group"></i>
+  <span id="t_storeLevel">Store Level</span>
+</div>
+
+
+<div class="option" onclick="openDistribution()">
+  <i class="fa-solid fa-share-nodes"></i>
+  <span id="t_distribution">Distribution</span>
+</div>
+
+  </div>
+</div>
+</div> <!-- END OF HOME -->
+<!-- ===== ORDER DETAIL MODAL ===== -->
+<div id="orderModal" class="order-modal">
+  <div class="order-box" onclick="event.stopPropagation()">
+
+    <h3>Order Details</h3>
+
+    <img id="o_img">
+
+    <div class="order-row">👤 User <b id="o_user"></b></div>
+    <div class="order-row">📦 Product <b id="o_productName"></b></div>
+<div class="order-row">🔢 Quantity <b id="o_qty"></b></div>
+    <div class="order-row">💰 Selling <b>$<span id="o_sell"></span></b></div>
+    <div class="order-row">🧾 Cost <b>$<span id="o_cost"></span></b></div>
+    <div class="order-row">📈 20% Profit <b>$<span id="o_profit"></span></b></div>
+
+    <hr>
+
+    <div class="order-row">💵 Total <b>$<span id="o_total"></span></b></div>
+<label style="font-size:13px">
+  <input type="checkbox" id="pickupCheck">
+  Pickup from store balance
+</label>
+    <div class="order-row">⏳ Pending <b>$<span id="o_pending"></span></b></div>
+    <div class="order-row">📍 Status <b id="o_status">pending</b></div>
+
+    <button onclick="closeOrderModal()" style="
+      width:100%;margin-top:10px;
+      background:#ff0050;color:#fff;
+      border:none;padding:10px;border-radius:10px">
+      Close
+    </button>
+
+  </div>
+</div>
+
+<div class="nav" id="bottomNav">
+
+  <button onclick="backHome()" class="active">
+    <i class="fa-solid fa-house"></i>
+    <span id="t_home">Home</span>
+  </button>
+
+  <button onclick="openProducts()">
+    <i class="fa-solid fa-box"></i>
+    <span id="t_products">Products</span>
+  </button>
+
+  <button onclick="openOrders()">
+    <i class="fa-solid fa-receipt"></i>
+    <span id="t_orders">Orders</span>
+    <span id="orderCount"
+      style="background:#ff0050;color:#fff;padding:2px 6px;border-radius:10px;font-size:10px;margin-left:4px">0</span>
+  </button>
+
+  <button onclick="openMy()">
+    <i class="fa-solid fa-user"></i>
+    <span id="t_my">My</span>
+  </button>
+
+</div>
+<!-- 👇 MY PAGE -->
+<div id="my" class="section hidden" style="padding:14px">
+
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+    <button onclick="backHome()" style="
+      border:none;
+      background:#eee;
+      padding:6px 10px;
+      border-radius:8px">
+      ← Back
+    </button>
+    <h3 id="t_myAccount" style="margin:0">My Account</h3>
+  </div>
+
+  <div class="card">
+    <b>Email</b>
+    <p id="myEmail" style="font-size:13px;color:#777"></p>
+    <small id="langLabel" style="font-size:11px;color:#777"></small>
+  </div>
+
+  <div class="card">
+    <p id="t_pendingAmount">Pending Amount</p>
+    <h3 id="pendingAmount" style="color:#ff0050">$0.00</h3>
+
+    <div class="grid">
+      <div class="card">
+        <small id="t_balance">Balance</small>
+        <b id="balance">$0.00</b>
+      </div>
+
+      <div class="card">
+        <small id="t_totalIncome">Total Income</small>
+        <b id="myTotalProfit">$0.00</b>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:10px;margin-top:10px">
+
+  <button
+  id="t_deposit"
+  onclick="openService(event)"
+  style="flex:1;background:#eee;border:none;padding:10px;border-radius:10px">
+  Deposit
+</button>
+
+  <button id="t_withdraw" onclick="openWithdraw()"
+    style="flex:1;background:#ff0050;color:#fff;border:none;padding:10px;border-radius:10px">
+    Withdraw
+  </button>
+</div>
+  </div>
+
+  <div class="my-actions">
+  <div class="option" onclick="openPersonalInfo()">
+    <i class="fa-solid fa-user"></i>
+    <span id="t_personalInfo">Personal Info</span>
+  </div>
+
+  <div class="option" onclick="openLang()">
+    <i class="fa-solid fa-language"></i>
+    <span id="t_language">Language</span>
+  </div>
+
+  <div class="option">
+    <i class="fa-solid fa-rotate-left"></i>
+    <span id="t_applyRefund">Apply Refund</span>
+  </div>
+  <!-- ✅ YAHAN LOGOUT -->
+  <div class="card" style="margin-top:12px">
+    <button onclick="logout()" style="
+      width:100%;
+      padding:12px;
+      border:none;
+      border-radius:12px;
+      background:#111;
+      color:#fff;
+      font-weight:600;
+    ">
+      <span id="t_logout">🚪 Logout</span>
+    </button>
+  </div>
+
+</div>
+
+<!-- LANGUAGE MODAL -->
+<!-- LANGUAGE MODAL -->
+<div id="languageBox" class="lang-modal">
+
+  <div class="lang-card">
+    <h2>Select Language</h2>
+
+    <button class="lang-btn" data-lang="en" onclick="setLang('en')">
+      🇺🇸 English <span class="tick"></span>
+    </button>
+
+    <button class="lang-btn" data-lang="ar" onclick="setLang('ar')">
+      🇸🇦 Arabic <span class="tick"></span>
+    </button>
+
+    <button class="lang-btn" data-lang="zh" onclick="setLang('zh')">
+      🇨🇳 Chinese <span class="tick"></span>
+    </button>
+
+    <button class="lang-btn" data-lang="fr" onclick="setLang('fr')">
+      🇫🇷 French <span class="tick"></span>
+    </button>
+
+    <button class="lang-btn" data-lang="ur" onclick="setLang('ur')">
+      🇵🇰 Urdu <span class="tick"></span>
+    </button>
+
+    <button class="close-lang" onclick="closeLang()">Close</button>
+  </div>
+
+</div>
+
+  
+<!-- WITHDRAW MODAL -->
+<div id="withdrawBox" style="
+display:none;
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:rgba(0,0,0,.5);
+z-index:999;
+">
+
+  <div style="
+  background:#fff;
+  width:360px;
+  margin:80px auto;
+  padding:20px;
+  border-radius:16px">
+
+    <h3>Withdraw Request</h3>
+
+<input id="w_name" placeholder="Full Name" style="width:100%;padding:10px;margin-bottom:8px">
+<input id="w_bank" placeholder="Bank Name" style="width:100%;padding:10px;margin-bottom:8px">
+<input id="w_iban" placeholder="IBAN Number" style="width:100%;padding:10px;margin-bottom:8px">
+<input id="w_account" placeholder="Account Number" style="width:100%;padding:10px;margin-bottom:8px">
+
+<select id="w_currency" style="width:100%;padding:10px;margin-bottom:8px">
+  <option value="">Select Currency</option>
+  <option>USD</option>
+  <option>Blockchain</option>
+</select>
+    <input id="w_amount" placeholder="Amount" style="width:100%;padding:10px;margin-bottom:12px">
+
+    <button onclick="submitWithdraw()" 
+    style="width:100%;padding:12px;border:none;
+    background:#ff0050;color:#fff;border-radius:10px">
+      Submit
+    </button>
+
+    <div class="link" onclick="closeWithdraw()">Cancel</div>
+  </div>
+</div>
+<!-- ================= FIREBASE SDKs (SIRF EK DAFA) ================= -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+
+<!-- ================= ALL APP + FIREBASE JS ================= -->
+<script>
+  // 🔥 App ko start me hide rakho jab tak Firebase check na kare
+let myBackFrom = "home";
+
+
+let pageStack = [];
+/* ========= BASIC ELEMENTS ========= */
+let ordersDiv    = document.getElementById("orders");
+let myPage       = document.getElementById("my");
+let navBtns      = document.querySelectorAll(".nav button");
+let bottomNav = document.getElementById("bottomNav");
+
+function showNav(){
+  bottomNav.style.display = "flex";
+}
+
+function hideNav(){
+  bottomNav.style.display = "none";
+}
+let loginBox     = document.getElementById("loginBox");
+let registerBox  = document.getElementById("registerBox");
+let forgotBox    = document.getElementById("forgotBox");
+let app          = document.getElementById("app");
+let home         = document.getElementById("home");
+let products     = document.getElementById("products");
+let hName        = document.getElementById("hName");
+loginBox.style.display = "none";
+app.style.display = "none";
+
+/* ========= UI FUNCTIONS ========= */
+function openForgot(){
+  loginBox.style.display="none";
+  forgotBox.style.display="block";
+}
+/* ========= ORDER CALCULATION ========= */
+function calculateOrder(costPrice){
+  let profit = costPrice * 0.20;
+  let total  = costPrice + profit;
+  return { profit, total };
+}
+
+function openRegister(){
+  loginBox.style.display="none";
+  registerBox.style.display="block";
+}
+function pick(id){
+  document.getElementById(id).click();
+}
+
+/* 👇 YAHAN ADD KARO */
+function preview(i,id){
+  let img = document.getElementById(id);
+  img.src = URL.createObjectURL(i.files[0]);
+  img.style.display = "block";
+}
+function backLogin(){
+  registerBox.style.display="none";
+  forgotBox.style.display="none";
+  loginBox.style.display="block";
+}
+
+function openProducts(){
+showNav();
+  home.classList.add("hidden");
+  ordersDiv.classList.add("hidden");
+  myPage.classList.add("hidden");
+
+  products.classList.remove("hidden");
+
+  navBtns.forEach(b=>b.classList.remove("active"));
+  navBtns[1].classList.add("active");
+
+  let box = document.getElementById("myProducts");
+  box.innerHTML = "";
+
+  if(distributed.length === 0){
+    box.innerHTML = "<p>No distributed products</p>";
+    return;
+  }
+
+  distributed.forEach((p,i)=>{
+
+    let total = (p.price * p.qty).toFixed(2);
+
+    box.innerHTML += `
+      <div class="card">
+        <img src="${p.image}" style="width:100%;height:120px;object-fit:cover;border-radius:10px">
+
+        <b>${p.name}</b>
+
+        <div style="font-size:13px;margin-top:4px">
+          Price: $${p.price}<br>
+          Qty: ${p.qty}<br>
+          <b>Total: $${total}</b>
+        </div>
+
+        <!-- 🔥 QTY CONTROLS -->
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button onclick="changeQty(${i},-1)">➖</button>
+          <button onclick="changeQty(${i},1)">➕</button>
+          <button onclick="removeProduct(${i})" style="margin-left:auto;background:#ffeded;color:red">
+            ❌ Remove
+          </button>
+        </div>
+      </div>
+    `;
+  });
+}
+  
+function openOrders(){
+  showNav();
+
+  // pages hide
+  home.classList.add("hidden");
+  products.classList.add("hidden");
+  myPage.classList.add("hidden");
+
+  // orders show
+  ordersDiv.classList.remove("hidden");
+
+  // nav active
+  navBtns.forEach(b=>b.classList.remove("active"));
+  navBtns[2].classList.add("active");
+
+  const box = document.getElementById("orderList");
+  box.innerHTML = "";
+
+  db.collection("orders")
+      .where("userEmail","==", _user.email)
+    .onSnapshot(snap=>{
+
+      let list = [];
+
+      snap.forEach(doc=>{
+        let o = doc.data();
+        o.id = doc.id;
+        list.push(o);
+      });
+
+      // sort latest first
+      list.sort((a,b)=>{
+        if(!a.createdAt || !b.createdAt) return 0;
+        return b.createdAt.seconds - a.createdAt.seconds;
+      });
+
+      box.innerHTML = "";
+
+      list.forEach(o=>{
+        box.innerHTML += `
+          <div class="card">
+
+            <b>$${o.total.toFixed(2)}</b>
+            <small>Customer: ${o.customerName || "-"}</small><br>
+            <small>Status: ${o.status}</small>
+
+            <button
+  id="pickupBtn_${o.id}"
+  onclick="pickupOrder('${o.id}')"
+  style="
+    margin-top:8px;
+    background:${o.pickup ? 'green' : '#ff0050'};
+    color:#fff;
+    border:none;
+    padding:6px 10px;
+    border-radius:6px">
+  Pickup
+</button>
+
+            <button onclick="openOrderDetailById('${o.id}')"
+  style="margin-top:6px">View</button>
+
+          </div>
+        `;
+      });
+
+    });
+}
+function openMy(){
+  showNav();
+
+  // 🔴 SAB pages hide
+  home.classList.add("hidden");
+  products.classList.add("hidden");
+  ordersDiv.classList.add("hidden");
+
+  // ✅ My show
+  myPage.classList.remove("hidden");
+
+  // nav active
+  navBtns.forEach(b=>b.classList.remove("active"));
+  navBtns[3].classList.add("active");
+}
+function backHome(){
+
+  products.classList.add("hidden");
+  ordersDiv.classList.add("hidden");
+  myPage.classList.add("hidden");
+
+
+  home.classList.remove("hidden");
+
+  navBtns.forEach(b => b.classList.remove("active"));
+  navBtns[0].classList.add("active");
+  showNav();
+}
+function backFromMy(){
+
+  myPage.classList.add("hidden");
+  home.classList.add("hidden");
+  products.classList.add("hidden");
+  ordersDiv.classList.add("hidden");
+
+  navBtns.forEach(b=>b.classList.remove("active"));
+
+  if(myBackFrom === "products"){
+    products.classList.remove("hidden");
+    navBtns[1].classList.add("active");
+
+  }else if(myBackFrom === "orders"){
+    ordersDiv.classList.remove("hidden");
+    navBtns[2].classList.add("active");
+
+  }else{
+    home.classList.remove("hidden");
+    navBtns[0].classList.add("active");
+  }
+}
+function openLang(){
+  document.getElementById("languageBox").style.display="block";
+}
+
+function closeLang(){
+  document.getElementById("languageBox").style.display="none";
+}
+
+function openWithdraw(){
+  document.getElementById("withdrawBox").style.display="block";
+}
+
+function closeWithdraw(){
+  document.getElementById("withdrawBox").style.display="none";
+}
+async function savePersonalInfo(){
+
+  let newStore = p_store.value.trim();
+  let newOwner = p_owner.value.trim();
+  let newEmail = p_email.value.trim();
+  let newPhone = p_phone.value.trim();
+
+  let oldPass  = p_oldPass.value.trim();
+  let newPass  = p_newPass.value.trim();
+  let cPass    = p_confirmPass.value.trim();
+
+  if(!newStore){
+    alert("Store name required");
+    return;
+  }
+
+  try{
+
+    // 🔐 PASSWORD FIRST (agar diya ho)
+    if(oldPass || newPass || cPass){
+
+      if(!oldPass || !newPass || !cPass){
+        alert("Fill all password fields");
+        return;
+      }
+
+      if(newPass !== cPass){
+        alert("New passwords do not match");
+        return;
+      }
+
+      const cred = firebase.auth.EmailAuthProvider.credential(
+        _user.email,
+        oldPass
+      );
+
+      await _user.reauthenticateWithCredential(cred);
+      await _user.updatePassword(newPass);
+    }
+
+    // 🔥 THEN profile update
+    await db.collection("users").doc(_user.uid).update({
+      storeName: newStore,
+      fullName: newOwner,
+      email: newEmail,
+      phone: newPhone
+    });
+
+    hName.innerText = newStore;
+
+    alert("Profile & password updated ✅");
+
+    closeShopSetting();
+
+  }catch(err){
+    alert(err.message);
+  }
+}
+
+/* ========= LANGUAGE ========= */
+const LANG = {
+
+  en: {
+    home: "Home",
+    products: "Products",
+    orders: "Orders",
+    my: "My",
+myAccount: "My Account",
+pendingAmount: "Pending Amount",
+balance: "Balance",
+totalIncome: "Total Income",
+deposit: "Deposit",
+withdraw: "Withdraw",
+personalInfo: "Personal Info",
+language: "Language",
+applyRefund: "Apply Refund",
+logout: "Logout",
+
+    todayOrders: "Today Orders Sold",
+    todaySales: "Today Total Sales",
+    todayProfitForecast: "Today's Profit Forecast",
+    totalProfit: "Total Profit",
+    myProducts: "My Products",
+
+    followersLabel: "Followers",
+    ratingLabel: "Rating",
+    creditLabel: "Credit",
+
+    today: "Today",
+    days7: "7 Days",
+    days30: "30 Days",
+
+    shopSetting: "Shop Setting",
+    refundOrder: "Refund Order",
+    expressShop: "Express Shop",
+    service: "Service",
+    storeLevel: "Store Level",
+    distribution: "Distribution"
+  },
+
+  ur: {
+  home: "ہوم",
+  products: "پروڈکٹس",
+  orders: "آرڈرز",
+  my: "میرا اکاؤنٹ",
+
+  myAccount: "میرا اکاؤنٹ",
+  pendingAmount: "بقایا رقم",
+  balance: "بیلنس",
+  totalIncome: "کل آمدنی",
+  deposit: "ڈپازٹ",
+  withdraw: "نکالیں",
+  personalInfo: "ذاتی معلومات",
+  language: "زبان",
+  applyRefund: "ریفنڈ درخواست",
+  logout: "لاگ آؤٹ",
+
+  todayOrders: "آج کے آرڈرز",
+  todaySales: "آج کی سیلز",
+  todayProfitForecast: "آج کے منافع کی پیش گوئی",
+  totalProfit: "کل منافع",
+  myProducts: "میرے پروڈکٹس",
+
+  followersLabel: "فالوورز",
+  ratingLabel: "ریٹنگ",
+  creditLabel: "کریڈٹ",
+
+  today: "آج",
+  days7: "7 دن",
+  days30: "30 دن",
+
+  shopSetting: "شاپ سیٹنگ",
+  refundOrder: "ریفنڈ آرڈر",
+  expressShop: "ایکسپریس شاپ",
+  service: "سروس",
+  storeLevel: "اسٹور لیول",
+  distribution: "ڈسٹری بیوشن"
+},
+
+  ar: {
+  home: "الرئيسية",
+  products: "المنتجات",
+  orders: "الطلبات",
+  my: "حسابي",
+
+  myAccount: "حسابي",
+  pendingAmount: "المبلغ المعلق",
+  balance: "الرصيد",
+  totalIncome: "إجمالي الدخل",
+  deposit: "إيداع",
+  withdraw: "سحب",
+  personalInfo: "المعلومات الشخصية",
+  language: "اللغة",
+  applyRefund: "طلب استرجاع",
+  logout: "تسجيل الخروج",
+
+  todayOrders: "طلبات اليوم",
+  todaySales: "مبيعات اليوم",
+  todayProfitForecast: "توقع أرباح اليوم",
+  totalProfit: "إجمالي الأرباح",
+  myProducts: "منتجاتي",
+
+  followersLabel: "المتابعين",
+  ratingLabel: "التقييم",
+  creditLabel: "الرصيد",
+
+  today: "اليوم",
+  days7: "7 أيام",
+  days30: "30 يوم",
+
+  shopSetting: "إعدادات المتجر",
+  refundOrder: "استرجاع الطلب",
+  expressShop: "الشحن السريع",
+  service: "الخدمة",
+  storeLevel: "مستوى المتجر",
+  distribution: "التوزيع"
+},
+
+  fr: {
+  home: "Accueil",
+  products: "Produits",
+  orders: "Commandes",
+  my: "Mon Compte",
+
+  myAccount: "Mon Compte",
+  pendingAmount: "Montant en attente",
+  balance: "Solde",
+  totalIncome: "Revenu total",
+  deposit: "Dépôt",
+  withdraw: "Retrait",
+  personalInfo: "Infos personnelles",
+  language: "Langue",
+  applyRefund: "Demande de remboursement",
+  logout: "Déconnexion",
+
+  todayOrders: "Commandes du jour",
+  todaySales: "Ventes du jour",
+  todayProfitForecast: "Prévision de profit",
+  totalProfit: "Profit total",
+  myProducts: "Mes Produits",
+
+  followersLabel: "Abonnés",
+  ratingLabel: "Évaluation",
+  creditLabel: "Crédit",
+
+  today: "Aujourd'hui",
+  days7: "7 Jours",
+  days30: "30 Jours",
+
+  shopSetting: "Paramètres",
+  refundOrder: "Remboursement",
+  expressShop: "Livraison Express",
+  service: "Service",
+  storeLevel: "Niveau du magasin",
+  distribution: "Distribution"
+},
+
+  zh: {
+  home: "主页",
+  products: "产品",
+  orders: "订单",
+  my: "我的",
+
+  myAccount: "我的账户",
+  pendingAmount: "待处理金额",
+  balance: "余额",
+  totalIncome: "总收入",
+  deposit: "存款",
+  withdraw: "提款",
+  personalInfo: "个人信息",
+  language: "语言",
+  applyRefund: "申请退款",
+  logout: "退出登录",
+
+  todayOrders: "今日订单",
+  todaySales: "今日销售",
+  todayProfitForecast: "今日利润预测",
+  totalProfit: "总利润",
+  myProducts: "我的产品",
+
+  followersLabel: "关注者",
+  ratingLabel: "评分",
+  creditLabel: "信用",
+
+  today: "今天",
+  days7: "7天",
+  days30: "30天",
+
+  shopSetting: "商店设置",
+  refundOrder: "退款订单",
+  expressShop: "快速配送",
+  service: "服务",
+  storeLevel: "商店等级",
+  distribution: "分销"
+},
+
+};
+
+function applyLanguage(code){
+  let L = LANG[code];
+  if(!L){
+    alert("Language coming soon");
+    return;
+  }
+  document.body.classList.toggle("rtl", L.dir==="rtl");
+}
+
+/* ========= FIREBASE INIT ========= */
+const firebaseConfig = {
+  apiKey: "AIzaSyAcyz67ZgPI2IxPS3WDF4EePCFYfF9heYg",
+  authDomain: "tiktok-shop-89007.firebaseapp.com",
+  projectId: "tiktok-shop-89007"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db   = firebase.firestore();
+let _user = null;
+let completedUnsub = null;
+function money(n){
+  return "$" + Number(n || 0).toFixed(2);
+}
+// ================= SUPPORT CHAT HELPERS =================
+function markAdminMessagesRead(ticketId){
+
+  if(!ticketId) return;
+
+  db.collection("supportTickets")
+    .doc(ticketId)
+    .collection("messages")
+    .where("sender","==","admin")
+    .where("read","==",false)
+    .get()
+    .then(snap=>{
+      snap.forEach(doc=>{
+        doc.ref.update({
+          read: true,
+          readAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      });
+    });
+}
+
+auth.onAuthStateChanged(user=>{
+
+  // 🔥 Jab tak Firebase decide na kare, kuch show mat karo
+  loginBox.style.display = "none";
+  app.style.display = "none";
+
+  if(!user){
+  document.body.classList.add("login");
+  loginBox.style.display = "block";
+  document.querySelector(".tiktok-wrap").style.display = "block";
+
+  if(notifyUnsub){
+    notifyUnsub();
+    notifyUnsub = null;
+  }
+
+  return;
+}
+
+// ✅ YAHAN — return ke BAAD
+_user = user;
+
+db.collection("users").doc(user.uid)
+.onSnapshot(doc=>{
+  const d = doc.data();
+  if(!d) return;
+
+  // Balance update
+  const balanceEl = document.getElementById("balance");
+  if(balanceEl) balanceEl.innerText = "$" + (d.balance ?? 0).toFixed(2);
+
+  // Total Profit update
+  const profitEl = document.getElementById("myTotalProfit");
+  if(profitEl) profitEl.innerText = "$" + (d.totalIncome ?? 0).toFixed(2);
+
+  // Pending Amount update
+  const pendingEl = document.getElementById("pendingAmount");
+  if(pendingEl) pendingEl.innerText = "$" + (d.pendingAmount ?? 0).toFixed(2);
+
+  // ⭐ RATING UPDATE - YEH LINE ADD KI HAI
+  const ratingEl = document.getElementById("rating");
+  if(ratingEl) ratingEl.innerText = (d.rating ?? 5.0).toFixed(1);
+
+  // Followers update
+  const followersEl = document.getElementById("followers");
+  if(followersEl) followersEl.innerText = d.followers ?? 0;
+
+  // Credit update
+  const creditEl = document.getElementById("credit");
+  if(creditEl) creditEl.innerText = "$" + (d.credit ?? 0).toFixed(2);
+});
+  // ✅ Already logged in (refresh ke baad bhi)
+  document.body.classList.remove("login");
+  app.style.display = "block";
+  home.classList.remove("hidden");
+  document.querySelector(".tiktok-wrap").style.display = "none";
+
+  db.collection("users").doc(user.uid).get().then(doc=>{
+    if(!doc.exists) return;
+
+    const data = doc.data();
+
+    hName.innerText = data.storeName || "";
+    myEmail.innerText = user.email;
+
+    if(data.storeLogo){
+      document.getElementById("hLogo").src = data.storeLogo;
+    }
+
+    // 🔥 distributed products load
+    loadDistributedProducts();
+
+    // 🔥 LIVE SHOP DATA LISTENER (yeh rehna zaroori hai)
+    db.collection("users").doc(_user.uid)
+    .onSnapshot(doc => {
+
+      let d = doc.data();
+
+todayOrders.innerText   = d.todayOrders ?? 0;
+todaySales.innerText    = money(d.todaySales);
+todayProfit.innerText   = money(d.todayProfit);
+totalProfit.innerText   = money(d.totalProfit);
+
+followers.innerText     = d.followers ?? 0;
+credit.innerText        = d.credit ?? 0;
+
+todayVisitors.innerText = d.todayVisitors ?? 0;
+weekVisitors.innerText  = d.weekVisitors ?? 0;
+monthVisitors.innerText = d.monthVisitors ?? 0;
+
+liveTotalSales.innerText = money(d.totalSales);
+    });
+
+    // 🔔 notifications
+    listenNotifications();
+listenOrderBadge();
+listenCompletedOrders();
+listenServiceUnread();
+  });
+
+});
+
+
+/* ========= AUTH ========= */
+function login(){
+
+  let email = document.querySelector("#loginBox input[type='email']").value;
+  let pass  = document.querySelector("#loginBox input[type='password']").value;
+
+  if(!email || !pass){
+    alert("Enter email & password");
+    return;
+  }
+
+  auth.signInWithEmailAndPassword(email, pass)
+  .then(cred => {
+    window._user = cred.user;
+    return db.collection("users").doc(cred.user.uid).get();
+  })
+  .then(doc => {
+
+    if(!doc.exists){
+      alert("User record not found");
+      auth.signOut();
+      return;
+    }
+
+    const data = doc.data();
+
+    if(data.status !== "approved"){
+      alert("Account pending approval");
+      auth.signOut();
+      return;
+    }
+
+    // 🔥 HEADER
+    hName.innerText = data.storeName || "";
+    if(data.storeLogo){
+      document.getElementById("hLogo").src = data.storeLogo;
+    }
+
+    // 🔥 DASHBOARD DATA
+    totalSales.innerText   = data.totalSales ?? 0;
+    todayOrders.innerText  = data.todayOrders ?? 0;
+    todaySales.innerText   = "$" + (data.todaySales ?? 0);
+    todayProfit.innerText  = data.todayProfit ?? 0;
+    totalProfit.innerText  = data.totalProfit ?? 0;
+    followers.innerText    = data.followers ?? 0;
+    credit.innerText       = data.credit ?? 0;
+    todayVisitors.innerText= data.todayVisitors ?? 0;
+    weekVisitors.innerText = data.weekVisitors ?? 0;
+    monthVisitors.innerText= data.monthVisitors ?? 0;
+
+    // 🔥 LOGIN SUCCESS UI
+    // 🔥 LOGIN SUCCESS UI
+document.body.classList.remove("login");
+loginBox.style.display = "none";
+app.style.display = "block";
+home.classList.remove("hidden");
+myEmail.innerText = _user.email;
+
+// 🔥 LOAD DISTRIBUTED PRODUCTS FROM FIRESTORE
+loadDistributedProducts();
+
+
+    bannerImg.src =
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff";
+
+  })
+  .catch(err=>alert(err.message));
+}
+function register(){
+
+  let store = reg_store.value.trim();
+  let name  = reg_name.value.trim();
+  let email = reg_email.value.trim();
+  let phone = reg_phone.value.trim();
+  let p1    = reg_pass1.value;
+  let p2    = reg_pass2.value;
+  let code  = reg_code.value.trim();
+
+  if(!store || !name || !email || !phone || !p1 || !p2){
+    alert("All fields are required");
+    return;
+  }
+
+  if(p1 !== p2){
+    alert("Passwords do not match");
+    return;
+  }
+
+  if(code !== "23826"){
+    alert("Invalid invitation code");
+    return;
+  }
+
+  if(!storeLogo.files[0]){
+    alert("Upload store logo");
+    return;
+  }
+
+  if(!idFront.files[0] || !idBack.files[0]){
+    alert("Upload both ID card images");
+    return;
+  }
+
+  auth.createUserWithEmailAndPassword(email, p1)
+  .then(res=>{
+    return db.collection("users").doc(res.user.uid).set({
+      storeName: store,
+      fullName: name,
+      email: email,
+      phone: phone,
+      invitationCode: code,
+      role: "seller",
+      status: "pending",
+      storeLogo: storeLogoPrev.src,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+  })
+ .then(()=>{
+  alert("Account created ✅\nPending admin approval");
+
+  auth.signOut();     // ⭐⭐⭐ MOST IMPORTANT LINE
+
+  backLogin();
+})
+  .catch(err=>alert(err.message));
+}
+function resetPassword(){
+  let email=document.querySelector("#forgotBox input[type='email']").value;
+  if(!email) return alert("Enter email");
+  auth.sendPasswordResetEmail(email)
+  .then(()=>alert("Reset email sent"));
+}
+
+/* REAL ORDERS DATA */
+let distributed = [];
+function loadDistributedProducts(){
+
+  distributed = [];
+
+  db.collection("users")
+    .doc(_user.uid)
+    .collection("products")
+    .orderBy("createdAt","desc")
+    .get()
+    .then(snapshot => {
+
+      snapshot.forEach(doc => {
+        distributed.push(doc.data());
+      });
+
+      document.getElementById("homeProductCount").innerText = distributed.length;
+
+    });
+}
+function addToDistribution(p){
+p.image = fixImage(p);
+  let exists = distributed.find(x => x.id === p.id);
+  if(exists){
+    alert("Product already distributed");
+    return;
+  }
+
+  distributed.push({
+    ...p,
+    qty: 1
+  });
+
+  document.getElementById("homeProductCount").innerText = distributed.length;
+
+  db.collection("users")
+    .doc(_user.uid)
+    .collection("products")
+    .doc(p.id)
+    .set({
+      ...p,
+      qty: 1,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+  alert("Product distributed ✅");
+}
+
+// 🔥 ALL AVAILABLE PRODUCTS (DISTRIBUTION SOURCE)
+// 🔥 CLEAN PRODUCT LIST (REAL MATCHING IMAGES)
+const allProducts = [
+
+  { id:"p101", name:"Men's Leather Wallet", price:19.99, cost:12,
+    image:"https://m.media-amazon.com/images/I/81kXJ8b0ZyL._AC_UL1500_.jpg" },
+
+  { id:"p102", name:"Wireless Bluetooth Earbuds", price:29.99, cost:18,
+    image:"https://m.media-amazon.com/images/I/61f1YfTkTDL._AC_UL1500_.jpg" },
+
+  { id:"p103", name:"Portable Power Bank", price:24.99, cost:14,
+    image:"https://m.media-amazon.com/images/I/71lVwl3q-kL._AC_SL1500_.jpg" },
+
+  { id:"p104", name:"Smart Watch Fitness", price:49.99, cost:29,
+    image:"https://m.media-amazon.com/images/I/61ZjlBOp+rL._AC_UL1500_.jpg" },
+
+  { id:"p105", name:"Digital Camera", price:79.99, cost:49,
+    image:"https://m.media-amazon.com/images/I/91rK2Q3b4VL._AC_SL1500_.jpg" },
+
+  { id:"p106", name:"Classic Sunglasses", price:14.99, cost:8,
+    image:"https://m.media-amazon.com/images/I/61QWl2GxGzL._AC_UL1500_.jpg" },
+
+  { id:"p107", name:"Tactical Backpack", price:39.99, cost:24,
+    image:"https://m.media-amazon.com/images/I/81fP9d3ZKfL._AC_UL1500_.jpg" },
+
+  { id:"p108", name:"Stainless Water Bottle", price:12.99, cost:6,
+    image:"https://m.media-amazon.com/images/I/71L7Xgk9H0L._AC_SL1500_.jpg" },
+
+  { id:"p109", name:"Yoga Mat", price:15.99, cost:9,
+    image:"https://m.media-amazon.com/images/I/71X9sYkV5CL._AC_SL1500_.jpg" },
+
+  { id:"p110", name:"Wireless Mouse", price:17.99, cost:10,
+    image:"https://m.media-amazon.com/images/I/61LtuGzXeaL._AC_SL1500_.jpg" },
+
+  { id:"p111", name:"Gaming Keyboard", price:49.99, cost:30,
+    image:"https://m.media-amazon.com/images/I/71Wcjs9WJPL._AC_SL1500_.jpg" },
+
+  { id:"p112", name:"Laptop Stand", price:25.99, cost:15,
+    image:"https://m.media-amazon.com/images/I/71A4mF7vLIL._AC_SL1500_.jpg" },
+
+  { id:"p113", name:"Bluetooth Speaker", price:35.99, cost:20,
+    image:"https://m.media-amazon.com/images/I/81lN8mXyY+L._AC_SL1500_.jpg" },
+
+  { id:"p114", name:"Action Camera", price:59.99, cost:36,
+    image:"https://m.media-amazon.com/images/I/71XqX2mZQkL._AC_SL1500_.jpg" },
+
+  { id:"p115", name:"Drone with Camera", price:99.99, cost:65,
+    image:"https://m.media-amazon.com/images/I/81mG9Yp9S-L._AC_SL1500_.jpg" },
+
+  { id:"p116", name:"LED Desk Lamp", price:22.99, cost:12,
+    image:"https://m.media-amazon.com/images/I/61gH0QzQ2gL._AC_SL1500_.jpg" },
+
+  { id:"p117", name:"Men Hoodie", price:29.99, cost:18,
+    image:"https://m.media-amazon.com/images/I/81u9bYwC9XL._AC_UL1500_.jpg" },
+
+  { id:"p118", name:"Women Sneakers", price:39.99, cost:24,
+    image:"https://m.media-amazon.com/images/I/71gR9qQp4lL._AC_UL1500_.jpg" },
+
+  { id:"p119", name:"Denim Jeans", price:32.99, cost:20,
+    image:"https://m.media-amazon.com/images/I/81GxZ1nZbVL._AC_UL1500_.jpg" },
+
+  { id:"p120", name:"Baseball Cap", price:14.99, cost:8,
+    image:"https://m.media-amazon.com/images/I/71QKQ9mwV7L._AC_UL1500_.jpg" },
+
+  { id:"p121", name:"Leather Belt", price:19.99, cost:12,
+    image:"https://m.media-amazon.com/images/I/71nQ9L7xYgL._AC_UL1500_.jpg" },
+
+  { id:"p122", name:"Casual Watch", price:45.99, cost:28,
+    image:"https://m.media-amazon.com/images/I/71x3e5mQKGL._AC_UL1500_.jpg" },
+
+  { id:"p123", name:"Car Phone Holder", price:11.99, cost:6,
+    image:"https://m.media-amazon.com/images/I/61K5FQwP6XL._AC_SL1500_.jpg" },
+
+  { id:"p124", name:"USB Charging Cable", price:8.99, cost:4,
+    image:"https://m.media-amazon.com/images/I/71v6KXk3bNL._AC_SL1500_.jpg" },
+
+  { id:"p125", name:"Wireless Charger Pad", price:19.99, cost:11,
+    image:"https://m.media-amazon.com/images/I/61d4b8GkR2L._AC_SL1500_.jpg" },
+
+  { id:"p126", name:"Travel Backpack", price:44.99, cost:27,
+    image:"https://m.media-amazon.com/images/I/81fP9d3ZKfL._AC_UL1500_.jpg" },
+
+  { id:"p127", name:"Coffee Mug Set", price:14.99, cost:7,
+    image:"https://m.media-amazon.com/images/I/71mC5X7bGFL._AC_SL1500_.jpg" },
+{ id:"p128", name:"Laptop Backpack", price:39.99, cost:24,
+  image:"https://m.media-amazon.com/images/I/81k6V9G3hIL._AC_UL1500_.jpg" },
+
+{ id:"p129", name:"Gaming Mouse", price:29.99, cost:18,
+  image:"https://m.media-amazon.com/images/I/61mpMH5TzkL._AC_SL1500_.jpg" },
+
+{ id:"p130", name:"Mechanical Keyboard RGB", price:59.99, cost:36,
+  image:"https://m.media-amazon.com/images/I/71Wcjs9WJPL._AC_SL1500_.jpg" },
+
+{ id:"p131", name:"External Hard Drive 1TB", price:79.99, cost:52,
+  image:"https://m.media-amazon.com/images/I/71KQ5Qk9G-L._AC_SL1500_.jpg" },
+
+{ id:"p132", name:"HDMI Cable 2m", price:9.99, cost:4,
+  image:"https://m.media-amazon.com/images/I/71e2XzQz5VL._AC_SL1500_.jpg" },
+
+{ id:"p133", name:"USB Hub 4 Port", price:14.99, cost:8,
+  image:"https://m.media-amazon.com/images/I/61p7Yxk3sAL._AC_SL1500_.jpg" },
+
+{ id:"p134", name:"Phone Tripod Stand", price:16.99, cost:9,
+  image:"https://m.media-amazon.com/images/I/61lZ9p3xXcL._AC_SL1500_.jpg" },
+
+{ id:"p135", name:"Ring Light 10 inch", price:24.99, cost:14,
+  image:"https://m.media-amazon.com/images/I/71X9YgkQHBL._AC_SL1500_.jpg" },
+
+{ id:"p136", name:"Bluetooth Headset", price:34.99, cost:20,
+  image:"https://m.media-amazon.com/images/I/61f1YfTkTDL._AC_UL1500_.jpg" },
+
+{ id:"p137", name:"Tablet Stand Holder", price:18.99, cost:10,
+  image:"https://m.media-amazon.com/images/I/61Yx9p7QXEL._AC_SL1500_.jpg" },
+
+{ id:"p138", name:"Kitchen Knife Set", price:34.99, cost:21,
+  image:"https://m.media-amazon.com/images/I/71F9Qk9XQwL._AC_SL1500_.jpg" },
+
+{ id:"p139", name:"Non Stick Fry Pan", price:27.99, cost:16,
+  image:"https://m.media-amazon.com/images/I/71gP9pXy7BL._AC_SL1500_.jpg" },
+
+{ id:"p140", name:"Electric Kettle", price:22.99, cost:13,
+  image:"https://m.media-amazon.com/images/I/61l3Qp9XoPL._AC_SL1500_.jpg" },
+
+{ id:"p141", name:"Blender Machine", price:49.99, cost:31,
+  image:"https://m.media-amazon.com/images/I/71XQp9kZqYL._AC_SL1500_.jpg" },
+
+{ id:"p142", name:"Rice Cooker", price:44.99, cost:28,
+  image:"https://m.media-amazon.com/images/I/71Pz9pQXrTL._AC_SL1500_.jpg" },
+
+{ id:"p143", name:"Vacuum Cleaner", price:89.99, cost:58,
+  image:"https://m.media-amazon.com/images/I/71p9QkXq4WL._AC_SL1500_.jpg" },
+
+{ id:"p144", name:"Steam Iron", price:26.99, cost:15,
+  image:"https://m.media-amazon.com/images/I/61p9QkXo5LL._AC_SL1500_.jpg" },
+
+{ id:"p145", name:"Hair Dryer", price:29.99, cost:18,
+  image:"https://m.media-amazon.com/images/I/71q9QkXo6JL._AC_SL1500_.jpg" },
+
+{ id:"p146", name:"Hair Straightener", price:24.99, cost:14,
+  image:"https://m.media-amazon.com/images/I/61t9QkXo7KL._AC_SL1500_.jpg" },
+
+{ id:"p147", name:"Electric Toothbrush", price:39.99, cost:25,
+  image:"https://m.media-amazon.com/images/I/71u9QkXo8KL._AC_SL1500_.jpg" },
+
+{ id:"p148", name:"Shaving Machine", price:32.99, cost:20,
+  image:"https://m.media-amazon.com/images/I/61v9QkXo9KL._AC_SL1500_.jpg" },
+
+{ id:"p149", name:"Men Leather Shoes", price:59.99, cost:36,
+  image:"https://m.media-amazon.com/images/I/71w9QkXp0KL._AC_UL1500_.jpg" },
+
+{ id:"p150", name:"Women Handbag", price:44.99, cost:27,
+  image:"https://m.media-amazon.com/images/I/71x9QkXp1KL._AC_UL1500_.jpg" },
+
+{ id:"p151", name:"Travel Suitcase", price:69.99, cost:42,
+  image:"https://m.media-amazon.com/images/I/71y9QkXp2KL._AC_UL1500_.jpg" },
+
+{ id:"p152", name:"Office Chair Ergonomic", price:129.99, cost:90,
+  image:"https://m.media-amazon.com/images/I/71z9QkXp3KL._AC_UL1500_.jpg" },
+
+{ id:"p153", name:"Study Table", price:149.99, cost:105,
+  image:"https://m.media-amazon.com/images/I/71a9QkXp4KL._AC_UL1500_.jpg" },
+
+{ id:"p154", name:"Wall Clock Modern", price:19.99, cost:10,
+  image:"https://m.media-amazon.com/images/I/71b9QkXp5KL._AC_UL1500_.jpg" },
+
+{ id:"p155", name:"Bed Sheet Set", price:29.99, cost:18,
+  image:"https://m.media-amazon.com/images/I/71c9QkXp6KL._AC_UL1500_.jpg" },
+  { id:"p156", name:"LED Desk Lamp", price:22.99, cost:12,
+  image:"https://images.pexels.com/photos/256541/pexels-photo-256541.jpeg" },
+
+{ id:"p157", name:"Sofa Cover Set", price:34.99, cost:21,
+  image:"https://images.pexels.com/photos/276583/pexels-photo-276583.jpeg" },
+
+{ id:"p158", name:"Curtains Blackout", price:39.99, cost:25,
+  image:"https://images.pexels.com/photos/2760243/pexels-photo-2760243.jpeg" },
+
+{ id:"p159", name:"Bathroom Towel Set", price:24.99, cost:14,
+  image:"https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg" },
+
+{ id:"p160", name:"Memory Foam Pillow", price:21.99, cost:12,
+  image:"https://images.pexels.com/photos/271618/pexels-photo-271618.jpeg" },
+
+{ id:"p161", name:"Laundry Basket", price:17.99, cost:9,
+  image:"https://images.pexels.com/photos/3747411/pexels-photo-3747411.jpeg" },
+
+{ id:"p162", name:"Digital Weighing Scale", price:19.99, cost:10,
+  image:"https://images.pexels.com/photos/4164761/pexels-photo-4164761.jpeg" },
+
+{ id:"p163", name:"Yoga Ball", price:15.99, cost:8,
+  image:"https://images.pexels.com/photos/40568/yoga-exercise-ball-fitness-sport-40568.jpeg" },
+
+{ id:"p164", name:"Resistance Bands Set", price:18.99, cost:10,
+  image:"https://images.pexels.com/photos/4164761/pexels-photo-4164761.jpeg" },
+
+{ id:"p165", name:"Camping Tent 4 Person", price:89.99, cost:58,
+  image:"https://images.pexels.com/photos/279630/pexels-photo-279630.jpeg" },
+
+{ id:"p166", name:"Sleeping Bag", price:29.99, cost:18,
+  image:"https://images.pexels.com/photos/279630/pexels-photo-279630.jpeg" },
+
+{ id:"p167", name:"Hiking Backpack", price:44.99, cost:27,
+  image:"https://images.pexels.com/photos/279630/pexels-photo-279630.jpeg" },
+
+{ id:"p168", name:"Car Vacuum Cleaner", price:34.99, cost:20,
+  image:"https://images.pexels.com/photos/4108792/pexels-photo-4108792.jpeg" },
+
+{ id:"p169", name:"Car Dash Camera", price:59.99, cost:36,
+  image:"https://images.pexels.com/photos/4505459/pexels-photo-4505459.jpeg" },
+
+{ id:"p170", name:"Car Seat Cover", price:39.99, cost:25,
+  image:"https://images.pexels.com/photos/4505459/pexels-photo-4505459.jpeg" },
+
+{ id:"p171", name:"Smart Door Lock", price:129.99, cost:92,
+  image:"https://images.pexels.com/photos/267614/pexels-photo-267614.jpeg" },
+
+{ id:"p172", name:"Security Camera WiFi", price:79.99, cost:50,
+  image:"https://images.pexels.com/photos/3807793/pexels-photo-3807793.jpeg" },
+
+{ id:"p173", name:"Baby Stroller", price:149.99, cost:110,
+  image:"https://images.pexels.com/photos/346885/pexels-photo-346885.jpeg" },
+
+{ id:"p174", name:"Baby Feeding Chair", price:69.99, cost:45,
+  image:"https://images.pexels.com/photos/346885/pexels-photo-346885.jpeg" },
+
+{ id:"p175", name:"Kids Study Chair", price:59.99, cost:38,
+  image:"https://images.pexels.com/photos/276583/pexels-photo-276583.jpeg" },
+
+{ id:"p176", name:"Office Drawer Cabinet", price:99.99, cost:70,
+  image:"https://images.pexels.com/photos/276583/pexels-photo-276583.jpeg" },
+
+{ id:"p177", name:"Wall Shelf Rack", price:29.99, cost:18,
+  image:"https://images.pexels.com/photos/2760243/pexels-photo-2760243.jpeg" },
+
+{ id:"p178", name:"Book Storage Rack", price:34.99, cost:20,
+  image:"https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg" },
+
+{ id:"p179", name:"Portable Heater", price:49.99, cost:32,
+  image:"https://images.pexels.com/photos/45170/pexels-photo-45170.jpeg" },
+
+{ id:"p180", name:"Air Humidifier", price:29.99, cost:18,
+  image:"https://images.pexels.com/photos/45170/pexels-photo-45170.jpeg" },
+
+{ id:"p181", name:"Air Purifier", price:79.99, cost:52,
+  image:"https://images.pexels.com/photos/45170/pexels-photo-45170.jpeg" },
+
+{ id:"p182", name:"Electric Scooter", price:699.99, cost:520,
+  image:"https://images.pexels.com/photos/100582/pexels-photo-100582.jpeg" },
+
+{ id:"p183", name:"Mountain Bicycle", price:499.99, cost:360,
+  image:"https://images.pexels.com/photos/100582/pexels-photo-100582.jpeg" },
+
+{ id:"p184", name:"Treadmill Machine", price:799.99, cost:600,
+  image:"https://images.pexels.com/photos/4164761/pexels-photo-4164761.jpeg" },
+
+{ id:"p185", name:"Dumbbell Set 20kg", price:89.99, cost:58,
+  image:"https://images.pexels.com/photos/4164761/pexels-photo-4164761.jpeg" },
+
+{ id:"p186", name:"Adjustable Bench Press", price:129.99, cost:92,
+  image:"https://images.pexels.com/photos/4164761/pexels-photo-4164761.jpeg" },
+
+{ id:"p187", name:"Smart LED TV 50 inch", price:599.99, cost:440,
+  image:"https://images.pexels.com/photos/5721903/pexels-photo-5721903.jpeg" },
+
+{ id:"p188", name:"Sound Bar System", price:149.99, cost:110,
+  image:"https://images.pexels.com/photos/63703/pexels-photo-63703.jpeg" },
+
+{ id:"p189", name:"Refrigerator Double Door", price:899.99, cost:690,
+  image:"https://images.pexels.com/photos/36347/refrigerator-kitchen.jpg" },
+
+{ id:"p190", name:"Microwave Oven", price:199.99, cost:145,
+  image:"https://images.pexels.com/photos/276528/pexels-photo-276528.jpeg" },
+
+{ id:"p191", name:"Dishwasher Machine", price:699.99, cost:520,
+  image:"https://images.pexels.com/photos/4108792/pexels-photo-4108792.jpeg" },
+
+{ id:"p192", name:"Coffee Maker Machine", price:149.99, cost:110,
+  image:"https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg" },
+
+{ id:"p193", name:"Toaster Bread", price:39.99, cost:24,
+  image:"https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg" },
+
+{ id:"p194", name:"Juicer Blender", price:59.99, cost:38,
+  image:"https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg" },
+
+{ id:"p195", name:"Smartphone Tripod", price:19.99, cost:10,
+  image:"https://images.pexels.com/photos/51383/camera-lens-photography-equipment-lens-51383.jpeg" },
+
+{ id:"p196", name:"DSLR Camera Stand", price:29.99, cost:18,
+  image:"https://images.pexels.com/photos/51383/camera-lens-photography-equipment-lens-51383.jpeg" },
+
+{ id:"p197", name:"Studio Softbox Light", price:69.99, cost:45,
+  image:"https://images.pexels.com/photos/3584994/pexels-photo-3584994.jpeg" },
+
+{ id:"p198", name:"Green Screen Backdrop", price:24.99, cost:14,
+  image:"https://images.pexels.com/photos/3584994/pexels-photo-3584994.jpeg" },
+
+{ id:"p199", name:"Gaming Chair", price:249.99, cost:180,
+  image:"https://images.pexels.com/photos/276583/pexels-photo-276583.jpeg" }
+];
+ // ✅ allProducts array yahan close
+
+function fixImage(p){
+  const real = allProducts.find(x => x.id === p.id);
+  return real ? real.image : p.image;
+}
+
+function placeOrder() {
+  if (!distributed || distributed.length === 0) {
+    alert("No products selected");
+    return;
+  }
+
+  let orderTotal  = 0;
+  let orderCost   = 0;
+  let orderProfit = 0;
+
+  distributed.forEach(p => {
+    orderTotal  += p.price * p.qty;
+    orderCost   += p.cost * p.qty;
+    orderProfit += (p.price - p.cost) * p.qty;
+  });
+
+  db.collection("orders").add({
+    userId: _user.uid,
+    userEmail: _user.email,
+    items: distributed,
+    total: orderTotal,
+    cost: orderCost,
+    profit: orderProfit,
+    status: "pending",
+    paymentStatus: "unpaid",
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  }).then(() => {
+    distributed = [];
+    alert("Order backend ko chala gaya ✅");
+    openOrders();
+  });
+}
+  function openRefund(){
+    alert("Refund coming soon");
+  }
+
+ function sendMsg(){
+
+  const msgInput = document.getElementById("msgInput");
+  let text = msgInput.value.trim();
+  if(!text) return;
+
+  db.collection("supportTickets")
+    .doc(currentTicketId)
+    .collection("messages")
+    .add({
+      text: text,
+      sender: "user",
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      read: false
+    });
+
+  db.collection("supportTickets")
+    .doc(currentTicketId)
+    .update({
+      lastMessage: text,
+      lastTime: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+  msgInput.value="";
+}
+
+function listenChat(){
+
+  const chatArea = document.getElementById("chatArea");
+markAdminMessagesRead(currentTicketId);
+  db.collection("supportTickets")
+    .doc(currentTicketId)
+    .collection("messages")
+    .orderBy("createdAt")
+    .onSnapshot(snap=>{
+
+      chatArea.innerHTML = "";
+
+      snap.forEach(d=>{
+        let m = d.data();
+
+        // ===== ADMIN MESSAGE (LEFT + LOGO) =====
+        if(m.sender === "admin"){
+
+          let html = "";
+
+if(m.text){
+  html += `<div>${m.text}</div>`;
+}
+
+if(m.image){
+  html += `
+    <img src="${m.image}"
+      style="max-width:180px;border-radius:8px;margin-top:4px">
+  `;
+}
+
+chatArea.innerHTML += `
+  <div style="display:flex;align-items:flex-end;margin:8px 0">
+    <div class="tiktok-logo"></div>
+    <div style="
+      background:#f1f1f1;
+      padding:8px 12px;
+      border-radius:14px;
+      max-width:70%;
+      font-size:13px;">
+      ${html}
+    </div>
+  </div>
+`;
+
+        }
+
+        // ===== USER MESSAGE (RIGHT) =====
+        else{
+
+  let html = "";
+
+  if(m.text){
+    html += `<div>${m.text}</div>`;
+  }
+
+  if(m.image){
+    html += `
+      <img src="${m.image}"
+        style="max-width:180px;border-radius:8px;margin-top:4px">
+    `;
+  }
+
+  chatArea.innerHTML += `
+    <div style="text-align:right;margin:8px 0">
+      <div style="
+        display:inline-block;
+        background:#ff0050;
+        color:#fff;
+        padding:8px 12px;
+        border-radius:14px;
+        max-width:70%;
+        font-size:13px;">
+        ${html}
+      </div>
+    </div>
+  `;
+}
+
+      });
+
+      chatArea.scrollTop = chatArea.scrollHeight;
+    });
+}
+
+ function openDistribution(){
+
+  let box = document.getElementById("distributionList");
+  box.innerHTML = "Loading...";
+
+  box.innerHTML = "";
+
+allProducts.forEach(p=>{
+
+  box.innerHTML += `
+    <div class="card">
+      <img src="${p.image}" style="width:100%;height:120px;object-fit:cover;border-radius:10px">
+      <b>${p.name}</b>
+      <small>$${p.price}</small>
+
+      <button onclick='addToDistribution(${JSON.stringify(p)})'
+        style="margin-top:6px;width:100%">
+        Distribute
+      </button>
+    </div>
+  `;
+});
+
+  document.getElementById("distributionBox").style.display="block";
+}
+
+  function closeDistribution(){
+    document.getElementById("distributionBox").style.display="none";
+  }
+
+  function openShopSetting(){
+    document.getElementById("shopSettingBox").style.display="block";
+  }
+
+  function closeShopSetting(){
+    document.getElementById("shopSettingBox").style.display="none";
+  }
+function openStoreLevel(){
+  document.getElementById("storeLevelBox").style.display = "block";
+}
+
+function closeStoreLevel(){
+  document.getElementById("storeLevelBox").style.display = "none";
+}
+function openExpress(){
+  document.getElementById("expressBox").style.display = "block";
+}
+
+function closeExpress(){
+  document.getElementById("expressBox").style.display = "none";
+}
+function closeService(){
+  document.getElementById("serviceBox").style.display = "none";
+}
+
+function openLink(url){
+  window.open(url, "_blank");
+}
+function openOrderDetail(o){
+
+  // 🔥 Hamesha fresh data Firestore se lao
+  db.collection("orders").doc(o.id).get().then(doc=>{
+
+    const fresh = doc.data();
+    const item  = fresh.items?.[0] || {};
+
+    const name = item.name || "-";
+    const qty  = item.qty  || 1;
+    const img  = item.image || "";
+
+    const selling = fresh.total || 0;
+    
+    // ✅ SAHI CALCULATION YAHAN
+    const realCost = (selling * 0.8).toFixed(2);      // 80% of selling price
+    const realProfit = (selling * 0.2).toFixed(2);    // 20% profit
+    const pendingAmount = realCost;                  // Pending = Cost
+
+    o_img.src = img;
+    o_user.innerText = fresh.userEmail;
+
+    o_productName.innerText = name;
+    o_qty.innerText = qty;
+
+    // ✅ SAHI VALUES SET KARO
+    o_sell.innerText = selling.toFixed(2);
+    o_cost.innerText = realCost;
+    o_profit.innerText = realProfit;
+    o_total.innerText = selling.toFixed(2);
+    o_pending.innerText = pendingAmount;
+
+    // ✅ ADMIN wala REAL status
+    o_status.innerText = fresh.status;
+
+    // Pickup
+    pickupCheck.checked = fresh.pickup === true;
+
+    pickupCheck.onchange = function () {
+      pickupToggleFromModal(o.id, this.checked);
+    };
+    
+    orderModal.style.display="flex";
+
+  });
+}
+function openOrderDetailById(id){
+
+  db.collection("orders").doc(id).get().then(doc=>{
+    const fresh = doc.data();
+    const item  = fresh.items?.[0] || {};
+
+    const name = item.name || "-";
+    const qty  = item.qty  || 1;
+    const img  = item.image || "";
+
+    const selling = fresh.total || 0;
+    
+    // ✅ SAHI CALCULATION YAHAN BHI
+    const realCost = (selling * 0.8).toFixed(2);      // 80% of selling price
+    const realProfit = (selling * 0.2).toFixed(2);    // 20% profit
+    const pendingAmount = realCost;                  // Pending = Cost
+
+    o_img.src = img;
+    o_user.innerText = fresh.userEmail;
+
+    o_productName.innerText = name;
+    o_qty.innerText = qty;
+
+    // ✅ SAHI VALUES SET KARO
+    o_sell.innerText = selling.toFixed(2);
+    o_cost.innerText = realCost;
+    o_profit.innerText = realProfit;
+    o_total.innerText = selling.toFixed(2);
+    o_pending.innerText = pendingAmount;
+
+    o_status.innerText = fresh.status;
+
+    pickupCheck.checked = fresh.pickup === true;
+
+    pickupCheck.onchange = function () {
+      pickupToggleFromModal(id, this.checked);
+    };
+
+    orderModal.style.display="flex";
+  });
+}
+function changeQty(i,delta){
+
+  distributed[i].qty += delta;
+
+  if(distributed[i].qty < 1){
+    distributed[i].qty = 1;
+  }
+
+  openProducts();
+}
+
+function removeProduct(i){
+  distributed.splice(i, 1); // 🔥 actual remove
+  document.getElementById("homeProductCount").innerText = distributed.length;
+  openProducts();
+}
+/* ===== WITHDRAW SUBMIT ===== */
+function submitWithdraw(){
+
+  let name     = w_name.value.trim();
+  let bank     = w_bank.value.trim();
+  let iban     = w_iban.value.trim();
+  let account  = w_account.value.trim();
+  let currency = w_currency.value;
+  let amount   = parseFloat(w_amount.value);
+
+  if(!name || !bank || !iban || !account || !currency || !amount){
+    alert("All fields required");
+    return;
+  }
+
+  if(amount <= 0){
+    alert("Invalid amount");
+    return;
+  }
+
+  db.collection("withdrawRequests").add({
+  userId: _user.uid,
+  email: _user.email,
+  storeName: hName.innerText,
+  fullName: name,
+  bankName: bank,
+  iban: iban,
+  accountNumber: account,
+  currency: currency,
+  amount: amount,
+  pendingAmount: amount,
+  status: "pending",
+  createdAt: firebase.firestore.FieldValue.serverTimestamp()
+})
+.then(()=>{
+  return db.collection("users").doc(_user.uid).update({
+    balance: firebase.firestore.FieldValue.increment(-amount),
+  
+  });
+})
+.then(()=>{
+  alert("Withdraw request submitted ✅");
+  closeWithdraw();
+
+  // clear inputs
+  w_name.value="";
+  w_bank.value="";
+  w_iban.value="";
+  w_account.value="";
+  w_currency.value="";
+  w_amount.value="";
+})
+.catch(err=>alert(err.message));
+}
+function openNotifications(e){
+  e.preventDefault();
+  e.stopPropagation();
+  e.stopImmediatePropagation(); // 🔥 MOST IMPORTANT
+
+  document.getElementById("notificationBox").style.display = "block";
+  return false;
+  markAllNotificationsRead();
+
+  return false; // ⭐⭐⭐ BOHOT IMPORTANT
+}
+
+function closeNotifications(){
+  document.getElementById("notificationBox").style.display = "none";
+}
+
+/* 🔔 REAL TIME NOTIFICATIONS */
+let notifyUnsub = null;
+
+function listenNotifications(){
+
+  if(notifyUnsub) notifyUnsub();
+
+  notifyUnsub = db
+    .collection("users")
+    .doc(_user.uid)
+    .collection("notifications")
+    .orderBy("createdAt","desc")
+    .onSnapshot(snapshot=>{
+
+      let list  = document.getElementById("notificationList");
+      let badge = document.getElementById("notifyCount");
+
+      list.innerHTML = "";
+      let unread = 0;
+
+      snapshot.forEach(doc=>{
+        let n = doc.data();
+
+        if(!n.read) unread++;
+
+        list.innerHTML += `
+          <div onclick="markNotificationRead('${doc.id}')"
+            style="
+              padding:10px;
+              border-bottom:1px solid #eee;
+              cursor:pointer;
+              background:${n.read ? '#fff' : '#f5f7ff'};
+            ">
+            <p>${n.message}</p>
+          </div>
+        `;
+      });
+
+      badge.style.display = unread ? "block" : "none";
+      badge.innerText = unread;
+    });
+}
+function markNotificationRead(id){
+  db.collection("users")
+    .doc(_user.uid)
+    .collection("notifications")
+    .doc(id)
+    .update({ read: true });
+}
+
+/* ========= LANGUAGE SYSTEM ========= */
+
+let currentLang = "en";
+
+function setLang(code){
+
+  currentLang = code;
+  const L = LANG[code];
+
+  document.getElementById("t_home").innerText     = L.home;
+  document.getElementById("t_products").innerText = L.products;
+  document.getElementById("t_orders").innerText   = L.orders;
+  document.getElementById("t_my").innerText       = L.my;
+
+  // ===== YAHAN PASTE KARO (INSIDE FUNCTION) =====
+  document.getElementById("t_todayOrders").innerText = L.todayOrders;
+  document.getElementById("t_todaySales").innerText = L.todaySales;
+  document.getElementById("t_todayProfitForecast").innerText = L.todayProfitForecast;
+  document.getElementById("t_totalProfit").innerText = L.totalProfit;
+  document.getElementById("t_myProducts").innerText = L.myProducts;
+
+  document.getElementById("t_followersLabel").innerText = L.followersLabel;
+  document.getElementById("t_ratingLabel").innerText = L.ratingLabel;
+  document.getElementById("t_creditLabel").innerText = L.creditLabel;
+
+  document.getElementById("t_today").innerText = L.today;
+  document.getElementById("t_7days").innerText = L.days7;
+  document.getElementById("t_30days").innerText = L.days30;
+
+  document.getElementById("t_shopSetting").innerText = L.shopSetting;
+  document.getElementById("t_refundOrder").innerText = L.refundOrder;
+  document.getElementById("t_expressShop").innerText = L.expressShop;
+  document.getElementById("t_service").innerText = L.service;
+  document.getElementById("t_storeLevel").innerText = L.storeLevel;
+  document.getElementById("t_distribution").innerText = L.distribution;
+  document.getElementById("t_myAccount").innerText = L.myAccount;
+document.getElementById("t_pendingAmount").innerText = L.pendingAmount;
+document.getElementById("t_balance").innerText = L.balance;
+document.getElementById("t_totalIncome").innerText = L.totalIncome;
+document.getElementById("t_deposit").innerText = L.deposit;
+document.getElementById("t_withdraw").innerText = L.withdraw;
+document.getElementById("t_personalInfo").innerText = L.personalInfo;
+document.getElementById("t_language").innerText = L.language;
+document.getElementById("t_applyRefund").innerText = L.applyRefund;
+document.getElementById("t_logout").innerText = "🚪 " + L.logout;
+
+  // RTL
+  if(code === "ar"){
+    document.body.classList.add("rtl");
+  }else{
+    document.body.classList.remove("rtl");
+  }
+
+  document.getElementById("headerLang").innerText = "🌍 " + code.toUpperCase();
+
+  closeLang();
+}
+function markAllNotificationsRead(){
+
+  db.collection("users")
+    .doc(_user.uid)
+    .collection("notifications")
+    .where("read","==",false)
+    .get()
+    .then(snap=>{
+      snap.forEach(doc=>{
+        doc.ref.update({ read:true });
+      });
+    });
+}
+function logout(){
+
+  auth.signOut().then(()=>{
+
+    // UI reset
+    app.style.display = "none";
+    home.classList.add("hidden");
+    products.classList.add("hidden");
+    ordersDiv.classList.add("hidden");
+    myPage.classList.add("hidden");
+
+    loginBox.style.display = "block";
+    document.body.classList.add("login");
+
+    // TikTok logo wapas
+    document.querySelector(".tiktok-wrap").style.display = "block";
+
+  });
+
+}
+function pickupOrder(orderId){
+
+  const btn = document.getElementById("pickupBtn_" + orderId);
+
+  db.collection("orders").doc(orderId).get().then(doc=>{
+    const o = doc.data();
+
+    if(o.status === "completed"){
+      alert("Order already completed");
+      return;
+    }
+
+    const selling = o.total || 0;
+    const realCost = selling * 0.8;  // ✅ Same calculation
+    const newPickup = !o.pickup;
+
+    db.collection("users").doc(_user.uid).get().then(uDoc=>{
+      const u = uDoc.data();
+      let balance = u.balance || 0;
+
+      if(newPickup && balance < realCost){
+        alert("Insufficient balance");
+        return;
+      }
+
+      if(newPickup){
+        // 🔥 pickup ON
+        db.collection("users").doc(_user.uid).update({
+          balance: firebase.firestore.FieldValue.increment(-realCost),
+          pendingAmount: firebase.firestore.FieldValue.increment(realCost)
+        });
+      }else{
+        // 🔥 pickup OFF (reverse)
+        db.collection("users").doc(_user.uid).update({
+          balance: firebase.firestore.FieldValue.increment(realCost),
+          pendingAmount: firebase.firestore.FieldValue.increment(-realCost)
+        });
+      }
+
+      db.collection("orders").doc(orderId).update({
+        pickup: newPickup
+      });
+
+      btn.style.background = newPickup ? "green" : "#ff0050";
+    });
+  });
+}
+function pickupToggleFromModal(orderId, checked){
+
+  db.collection("orders").doc(orderId).get().then(doc=>{
+    const o = doc.data();
+
+    if(o.status === "completed"){
+      alert("Order already completed");
+      pickupCheck.checked = o.pickup === true;
+      return;
+    }
+
+    const selling = o.total || 0;
+    const realCost = selling * 0.8;  // ✅ Yahaan bhi 80% calculation
+
+    db.collection("users").doc(_user.uid).get().then(uDoc=>{
+      const u = uDoc.data();
+      let balance = u.balance || 0;
+
+      if(checked && balance < realCost){
+        alert("Insufficient balance");
+        pickupCheck.checked = false;
+        return;
+      }
+
+      if(checked){
+        db.collection("users").doc(_user.uid).update({
+          balance: firebase.firestore.FieldValue.increment(-realCost),
+          pendingAmount: firebase.firestore.FieldValue.increment(realCost)
+        });
+      }else{
+        db.collection("users").doc(_user.uid).update({
+          balance: firebase.firestore.FieldValue.increment(realCost),
+          pendingAmount: firebase.firestore.FieldValue.increment(-realCost)
+        });
+      }
+
+      db.collection("orders").doc(orderId).update({
+        pickup: checked
+      });
+
+    });
+
+  });
+
+}
+function closeOrderModal(){
+  document.getElementById("orderModal").style.display = "none";
+}
+function listenOrderBadge(){
+
+  db.collection("orders")
+    .where("userEmail","==", _user.email)
+    .onSnapshot(snap=>{
+
+      let pending = 0;
+
+      snap.forEach(doc=>{
+        let o = doc.data();
+
+        // ❗ sirf wo orders ginne hain jo pickup nahi hue
+        if(o.pickup !== true){
+          pending++;
+        }
+      });
+
+      document.getElementById("orderCount").innerText = pending;
+    });
+}
+function listenCompletedOrders(){
+  if(completedUnsub){
+    completedUnsub();
+  }
+
+  completedUnsub = db.collection("orders")
+    .where("userId","==", _user.uid)
+    .onSnapshot(snap=>{
+
+      snap.docChanges().forEach(change=>{
+        if(change.type !== "modified") return;
+
+        const doc = change.doc;
+        const o   = doc.data();
+
+        if(o.status === "completed" && o.settled !== true){
+
+          const selling = o.total || 0;
+          const realCost = selling * 0.8;      // ✅ 80% of selling price
+          const profit = selling * 0.2;        // ✅ 20% profit
+          const sale = selling;                // ✅ Total sale amount
+
+          const todayStr = new Date().toDateString();
+
+          db.collection("users").doc(_user.uid).get().then(uDoc=>{
+            const u = uDoc.data() || {};
+            const lastDay = (u.lastOrderDay || "");
+
+            let todayOrders = u.todayOrders || 0;
+            let todaySales  = u.todaySales  || 0;
+            let todayProfit = u.todayProfit || 0;
+
+            if(lastDay !== todayStr){
+              todayOrders = 0;
+              todaySales  = 0;
+              todayProfit = 0;
+            }
+
+            db.collection("users").doc(_user.uid).update({
+              balance: firebase.firestore.FieldValue.increment(sale),
+              pendingAmount: firebase.firestore.FieldValue.increment(-realCost),
+              totalIncome: firebase.firestore.FieldValue.increment(profit),
+
+              todayOrders: todayOrders + 1,
+              todaySales:  todaySales + sale,
+              todayProfit: todayProfit + profit,
+              totalProfit: firebase.firestore.FieldValue.increment(profit),
+              totalSales:  firebase.firestore.FieldValue.increment(sale),
+
+              lastOrderDay: todayStr
+            })
+            .then(()=>{
+              doc.ref.update({ settled: true });
+            });
+
+          });
+        }
+      });
+    });
+}
+function openPersonalInfo(){
+  document.getElementById("shopSettingBox").style.display = "block";
+
+  // data load
+  db.collection("users").doc(_user.uid).get().then(doc=>{
+    if(doc.exists){
+      let d = doc.data();
+      p_store.value = d.storeName || "";
+      p_owner.value = d.fullName || "";
+      p_email.value = d.email || "";
+      p_phone.value = d.phone || "";
+      if(d.storeLogo){
+        p_logoPrev.src = d.storeLogo;
+        p_logoPrev.style.display = "block";
+      }
+    }
+  });
+}
+let currentTicketId = null;
+let noticeUnsub = null;
+
+function getCorrectImage(p){
+  let real = allProducts.find(x => x.id === p.id);
+  return real ? real.image : p.image;
+}
+
+function openService(e){
+
+  if(e){
+    e.stopPropagation();
+    e.preventDefault();
+  }
+
+  const box = document.getElementById("serviceBox");
+
+  // ✅ box pehle show karo (DOM ready ho jayega)
+  box.style.display = "flex";
+  // ✅ IMAGE PICK + PREVIEW (SIMPLE FIX)
+const imgInput = document.getElementById("imgInput");
+const preview  = document.getElementById("imagePreview");
+
+imgInput.onchange = function () {
+
+  const file = this.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function () {
+    preview.style.display = "block";
+    preview.innerHTML = `
+      <div style="position:relative;display:inline-block">
+        <img src="${reader.result}"
+          style="max-width:120px;border-radius:8px;border:1px solid #ddd">
+
+        <button id="removeImg"
+          style="
+            position:absolute;
+            top:-6px;
+            right:-6px;
+            background:#ff3b3b;
+            color:#fff;
+            border:none;
+            border-radius:50%;
+            width:20px;
+            height:20px;
+            cursor:pointer;
+          ">×</button>
+      </div>
+    `;
+
+    document.getElementById("removeImg").onclick = function () {
+      imgInput.value = "";
+      preview.innerHTML = "";
+      preview.style.display = "none";
+    };
+  };
+
+  reader.readAsDataURL(file);
+};
+
+
+  // ✅ ab elements safe milenge
+  const noticeBox = document.getElementById("serviceNotice");
+
+  if(!noticeUnsub){
+    noticeUnsub = db.collection("settings")
+  .doc("serviceNotice")
+  .onSnapshot(doc=>{
+
+    if(!doc.exists){
+      noticeBox.style.display = "none";
+      return;
+    }
+
+    const n = doc.data();
+
+    if(!n.active){
+      noticeBox.style.display = "none";
+      return;
+    }
+
+    let html = "";
+
+    if(n.text){
+      html += `<div style="margin-bottom:8px">${n.text}</div>`;
+    }
+
+    if(n.image){
+      html += `<img src="${n.image}" style="width:100%;border-radius:8px">`;
+    }
+
+    noticeBox.innerHTML = html;
+    noticeBox.style.display = "block";
+  });
+  }
+
+  db.collection("supportTickets")
+    .where("userId","==", _user.uid)
+    .where("status","==","open")
+    .limit(1)
+    .get()
+    .then(snap=>{
+
+      if(snap.empty){
+
+db.collection("supportTickets").add({
+  userId:_user.uid,
+  userEmail:_user.email,
+  storeName:hName.innerText,
+  status:"open",
+  createdAt:firebase.firestore.FieldValue.serverTimestamp()
+})
+.then(doc=>{
+  currentTicketId = doc.id;
+
+  listenChat();
+
+  // ✅ YAHAN ADD KARO (EXACT)
+  markAdminMessagesRead(currentTicketId);
+
+  db.collection("supportTickets").doc(currentTicketId).update({
+    lastSender: "user"
+  });
+});
+
+}else{
+  currentTicketId = snap.docs[0].id;
+  listenChat();
+
+  // ⭐⭐⭐ YAHAN BHI ADD KARO
+  db.collection("supportTickets").doc(currentTicketId).update({
+    lastSender: "user"
+  });
+}
+});   // ❗ .then(snap=>{}) close
+}     // ❗ openService() close
+
+// ✅ HERO SLIDER — SINGLE SAFE INTERVAL
+setInterval(()=>{
+  const slides = document.querySelectorAll(".hero-slide");
+  let active = document.querySelector(".hero-slide.active");
+  let i = [...slides].indexOf(active);
+
+  if(active){
+    active.classList.remove("active");
+    slides[(i+1) % slides.length].classList.add("active");
+  }
+}, 3500);
+function listenServiceUnread(){
+
+  db.collection("supportTickets")
+    .where("userId","==", _user.uid)
+    .where("status","==","open")
+    .onSnapshot(snap=>{
+
+      let showBadge = false;
+
+      snap.forEach(doc=>{
+        let t = doc.data();
+
+        // agar last message admin ka hai to red dot
+        if(t.lastSender === "admin"){
+          showBadge = true;
+        }
+      });
+
+      const badge = document.getElementById("serviceBadge");
+      badge.style.display = showBadge ? "block" : "none";
+
+    });
+
+}
+async function sendServiceMsg(){
+
+  const text = document.getElementById("msgInput").value.trim();
+  const file = document.getElementById("imgInput").files[0];
+
+  if(!text && !file){
+    alert("Type message or select image");
+    return;
+  }
+
+  if(!currentTicketId){
+    alert("Ticket not ready");
+    return;
+  }
+
+  let imageUrl = "";
+
+  if(file){
+    const imgRef = firebase.storage()
+      .ref("supportImages/" + currentTicketId + "/" + Date.now() + "_" + file.name);
+
+    await imgRef.put(file);
+    imageUrl = await imgRef.getDownloadURL();
+  }
+
+  await db
+  .collection("supportTickets")
+  .doc(currentTicketId)
+  .collection("messages")
+  .add({
+    sender: "user",
+    text: text || "",
+    image: imageUrl || "",
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  });
+
+await db
+  .collection("supportTickets")
+  .doc(currentTicketId)
+  .update({
+    lastSender: "user",
+    lastMessage: imageUrl ? "📷 Image" : text,
+    lastTime: firebase.firestore.FieldValue.serverTimestamp()
+  });
+
+// ✅ CLEAR INPUTS AFTER SEND
+document.getElementById("msgInput").value = "";
+document.getElementById("imgInput").value = "";
+document.getElementById("imagePreview").innerHTML = "";
+document.getElementById("imagePreview").style.display = "none";
+}
+
+</script>
+<!-- ✅ SERVICE BOX -->
+<div id="serviceBox" style="
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.5);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:9999">
+
+  <div style="
+    width:360px;
+    background:#fff;
+    border-radius:12px;
+    padding:15px;
+    display:flex;
+    flex-direction:column">
+
+    <h3>Customer Support</h3>
+
+    <!-- 🔔 Notice from Admin -->
+    <div id="serviceNotice"
+      style="background:#f1f1f1;
+      padding:8px;
+      border-radius:8px;
+      font-size:13px;
+      margin-bottom:8px">
+    </div>
+
+    <!-- 💬 Chat Area -->
+    <div id="chatArea" style="
+      height:260px;
+      overflow:auto;
+      border:1px solid #ddd;
+      border-radius:8px;
+      padding:8px;
+      margin-bottom:8px">
+    </div>
+
+  <!-- 💬 CHAT INPUT + BUTTONS -->
+<div style="
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin-top:8px;
+  width:100%;
+  box-sizing:border-box;
+">
+
+  <!-- 📷 Image Icon -->
+  <label for="imgInput" style="
+    width:36px;
+    height:36px;
+    min-width:36px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid #ddd;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:18px;
+    background:#fff;
+  ">
+    📷
+  </label>
+
+  <!-- Hidden Image Input -->
+  <input type="file" id="imgInput" accept="image/*" hidden>
+  <div id="imagePreview" style="margin:6px 0;display:none"></div>
+
+  <!-- ✍️ Text Input -->
+  <input
+    type="text"
+    id="msgInput"
+    placeholder="Type message..."
+    style="
+      flex:1;
+      min-width:0;
+      padding:8px;
+      border:1px solid #ddd;
+      border-radius:6px;
+      box-sizing:border-box;
+    ">
+
+  <!-- 🚀 Send -->
+<button
+  type="button"
+  onclick="sendServiceMsg()"
+  style="
+    background:#111;
+    color:#fff;
+    border:none;
+    padding:8px 12px;
+    border-radius:6px;
+    cursor:pointer;
+    white-space:nowrap;
+  ">
+  Send
+</button>
+
+<!-- ❌ Close -->
+<button
+  type="button"
+  onclick="closeService()"
+  style="
+    background:#eee;
+    border:none;
+    padding:8px 10px;
+    border-radius:6px;
+    cursor:pointer;
+    white-space:nowrap;
+  ">
+  Close
+</button>
+</div>
+
+
+<!-- 🔔 NOTIFICATION MODAL (YAHAN PASTE KARO) -->
+<div id="notificationBox" style="
+display:none;
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:rgba(0,0,0,.4);
+z-index:20000;
+">
+
+  <div style="
+    background:#fff;
+    width:360px;
+    margin:70px auto;
+    padding:14px;
+    border-radius:16px;
+    max-height:70vh;
+    overflow:auto;
+  ">
+
+    <h3 style="margin-top:0">Notifications</h3>
+
+    <div id="notificationList"></div>
+
+    <button onclick="closeNotifications()" style="
+      width:100%;
+      margin-top:10px;
+      padding:10px;
+      border:none;
+      border-radius:10px;
+      background:#ff0050;
+      color:#fff;
+    ">Close</button>
+
+  </div>
+</div>
+
+<!-- 🔔 NOTIFICATION MODAL END -->
+
+</body>
+
+</html>
+
+
+
